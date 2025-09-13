@@ -1,6 +1,7 @@
 import SearchBar from '../components/SearchBar';
+import getCoverFromBook from '../utils/getCoverFromBook';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { Link } from 'react-router-dom';
 import BookCard from '../components/BookCard';
 
@@ -23,7 +24,7 @@ const HomePage = () => {
   useEffect(() => {
     setLoading(true);
     setError('');
-    axios.get(`/api/books?page=${page}`)
+    api.get('/books', { params: { page } })
       .then(res => {
         const data = res.data.books || res.data;
         setBooks(data);
@@ -56,40 +57,52 @@ const HomePage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">Book List</h1>
-      {loading && <div>Loading...</div>}
-      {error && <div className="text-red-500 mb-4">{error}</div>}
-      <SearchBar onSearch={handleSearch} />
-      <ul className="space-y-4">
-        {filteredBooks.map(book => (
-          <li key={book.id}>
-            <Link to={`/books/${book.id}`}>
-              <BookCard
-                id={book.id}
-                title={book.title}
-                author={book.author}
-                coverImage={book.coverImage || '/default-cover.png'}
-                averageRating={book.averageRating || 0}
-              />
-            </Link>
-          </li>
-        ))}
+    <main className="space-y-8">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold tracking-tight">Discover Books</h1>
+          <p className="text-sm text-slate-500">Browse and explore community-rated titles</p>
+        </div>
+        <div className="text-xs text-slate-500">Page {page} of {totalPages}</div>
+      </header>
+
+      {loading && <div className="py-10 text-center text-sm text-slate-500">Loading books...</div>}
+      {error && <div className="text-red-500 text-sm">{error}</div>}
+
+      <div className="pt-2"><SearchBar onSearch={handleSearch} /></div>
+
+      <ul className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2">
+        {filteredBooks.map(book => {
+          const cover = getCoverFromBook(book) || null;
+          return (
+            <li key={book.id}>
+              <Link to={`/books/${book.id}`}>
+                <BookCard
+                  id={book.id}
+                  title={book.title}
+                  author={book.author}
+                  coverImage={cover}
+                  averageRating={book.averageRating || 0}
+                />
+              </Link>
+            </li>
+          );
+        })}
       </ul>
-      <div className="flex justify-center items-center mt-6 space-x-2">
+
+      <div className="flex justify-center items-center pt-4 gap-4">
         <button
           onClick={handlePrev}
           disabled={page === 1}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          className="px-4 py-2 bg-white dark:bg-slate-800 border border-gray-200 rounded-md disabled:opacity-50"
         >Prev</button>
-        <span>Page {page} of {totalPages}</span>
         <button
           onClick={handleNext}
           disabled={page === totalPages}
-          className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          className="px-4 py-2 bg-white dark:bg-slate-800 border border-gray-200 rounded-md disabled:opacity-50"
         >Next</button>
       </div>
-    </div>
+    </main>
   );
 }
 

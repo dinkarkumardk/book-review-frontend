@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const SignupPage = () => {
@@ -15,7 +15,7 @@ const SignupPage = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.post('/api/auth/signup', { name, email, password });
+  const response = await api.post('/auth/signup', { name, email, password });
       // Assuming response.data contains { token, user }
       login(response.data.token, response.data.user);
     } catch (err: any) {
@@ -26,48 +26,52 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
-        {error && <div className="mb-2 text-red-500 text-center">{error}</div>}
-        <div className="mb-4">
-          <label className="block mb-1">Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            className="w-full px-3 py-2 border rounded"
-            required
-          />
+    <div className="bg-gray-50 dark:bg-slate-900 py-12">
+      <div className="app-container">
+        <div className="max-w-md mx-auto">
+          <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold mb-4 text-slate-900 dark:text-gray-100 text-center">Create your account</h2>
+            {error && <div className="mb-3 text-red-500 text-center">{error}</div>}
+            <div className="mb-4">
+              <label className="block mb-1 text-sm text-slate-700 dark:text-slate-300">Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block mb-1 text-sm text-slate-700 dark:text-slate-300">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                required
+              />
+            </div>
+            <div className="mb-6">
+              <label className="block mb-1 text-sm text-slate-700 dark:text-slate-300">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-sky-600 text-white py-2 rounded-md hover:bg-sky-700 shadow-sm"
+              disabled={loading}
+            >
+              {loading ? 'Signing up...' : 'Sign Up'}
+            </button>
+          </form>
         </div>
-        <div className="mb-4">
-          <label className="block mb-1">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-1">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
-          disabled={loading}
-        >
-          {loading ? 'Signing up...' : 'Sign Up'}
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
