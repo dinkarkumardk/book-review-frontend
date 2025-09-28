@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { toggleFavorite } from '@/services/api';
 import ImageWithFallback from './ImageWithFallback';
 import getAvatarUrl from '../utils/getAvatarUrl';
 
@@ -8,9 +9,30 @@ interface BookCardProps {
   author: string;
   coverImage?: string | null;
   averageRating: number;
+  initialFavorited?: boolean;
 }
 
-const BookCard: React.FC<BookCardProps> = ({ id, title, author, coverImage, averageRating }) => {
+const BookCard: React.FC<BookCardProps> = ({ id, title, author, coverImage, averageRating, initialFavorited }) => {
+  const numericId = Number(id);
+  const [favorited, setFavorited] = useState<boolean>(!!initialFavorited);
+  const [pending, setPending] = useState(false);
+
+  const onToggle = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (!numericId || pending) return;
+    const next = !favorited;
+    setFavorited(next);
+    setPending(true);
+    try {
+      await toggleFavorite(numericId);
+    } catch {
+      // revert if failed
+      setFavorited(!next);
+    } finally {
+      setPending(false);
+    }
+  };
   return (
     <article
       data-book-id={id}
@@ -39,6 +61,15 @@ const BookCard: React.FC<BookCardProps> = ({ id, title, author, coverImage, aver
             <span className="text-yellow-500 font-semibold text-sm leading-none">{averageRating.toFixed(1)}</span>
             <span>/5</span>
           </div>
+          <button
+            onClick={onToggle}
+            aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
+            aria-pressed={favorited}
+            className={`ml-auto inline-flex items-center justify-center w-8 h-8 rounded-md border transition-colors text-sm ${favorited ? 'bg-rose-600 border-rose-600 text-white hover:bg-rose-500' : 'border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700'}`}
+            disabled={pending}
+          >
+            <span className={`transition-transform ${pending ? 'scale-90 opacity-80' : ''}`}>{favorited ? '♥' : '♡'}</span>
+          </button>
         </div>
       </div>
     </article>

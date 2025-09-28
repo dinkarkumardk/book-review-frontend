@@ -1,6 +1,8 @@
 import SearchBar from '../components/SearchBar';
 import getCoverFromBook from '../utils/getCoverFromBook';
 import { useEffect, useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { fetchUserFavorites } from '@/services/api';
 import api from '../services/api';
 import { Link } from 'react-router-dom';
 import BookCard from '../components/BookCard';
@@ -9,44 +11,54 @@ interface Book {
   id: string;
   title: string;
   author: string;
+  coverImageURL?: string;
   coverImage?: string;
-  averageRating?: number;
+  avgRating?: number;
+  reviewCount?: number;
 }
 
 const HomePage = () => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [favoriteIds, setFavoriteIds] = useState<Set<number>>(new Set());
+  const { user } = useAuth();
 
   useEffect(() => {
     setLoading(true);
     setError('');
     api.get('/books', { params: { page } })
       .then(res => {
-        const data = res.data.books || res.data;
+        const data = res.data.data || res.data.books || res.data;
         setBooks(data);
-        setFilteredBooks(data);
         setTotalPages(res.data.totalPages || 1);
       })
       .catch(() => setError('Failed to load books'))
       .finally(() => setLoading(false));
   }, [page]);
 
+  // Load favorites once user is known
+  useEffect(() => {
+    if (!user) { setFavoriteIds(new Set()); return; }
+    fetchUserFavorites().then(favs => {
+      setFavoriteIds(new Set(favs.map(f => f.id)));
+    }).catch(() => {});
+  }, [user]);
+
   const handleSearch = (query: string) => {
-    if (!query) {
-      setFilteredBooks(books);
-      return;
-    }
-    const lowerQuery = query.toLowerCase();
-    setFilteredBooks(
-      books.filter(book =>
-        book.title.toLowerCase().includes(lowerQuery) ||
-        book.author.toLowerCase().includes(lowerQuery)
-      )
-    );
+    // Perform server-side search to leverage indexed queries
+    setLoading(true);
+    api.get('/books', { params: { page: 1, search: query } })
+      .then(res => {
+        const data = res.data.data || res.data.books || res.data;
+        setPage(1);
+        setBooks(data);
+        setTotalPages(res.data.totalPages || 1);
+      })
+      .catch(() => setError('Search failed'))
+      .finally(() => setLoading(false));
   };
 
   const handlePrev = () => {
@@ -72,7 +84,7 @@ const HomePage = () => {
       <div className="pt-2"><SearchBar onSearch={handleSearch} /></div>
 
       <ul className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2">
-        {filteredBooks.map(book => {
+  {books.map(book => {
           const cover = getCoverFromBook(book) || null;
           return (
             <li key={book.id}>
@@ -82,7 +94,8 @@ const HomePage = () => {
                   title={book.title}
                   author={book.author}
                   coverImage={cover}
-                  averageRating={book.averageRating || 0}
+                  averageRating={book.avgRating ?? 0}
+                  initialFavorited={favoriteIds.has(Number(book.id))}
                 />
               </Link>
             </li>

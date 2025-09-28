@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import api from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import api from '@/services/api';
+import { useAuth } from '@/context/AuthContext';
+import { Card } from '@/components/ui/Card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/Button';
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -17,52 +20,44 @@ const LoginPage = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.post('/auth/login', { email, password });
-      login(response.data.token, response.data.user);
-      toast.success('Logged in successfully');
+      const res = await api.post('/auth/login', { email, password });
+      login(res.data.token, res.data.user);
+      toast.success('Logged in');
       navigate('/', { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err?.response?.data?.message || 'Login failed');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-slate-900 py-12">
+    <div className="py-12">
       <div className="app-container">
         <div className="max-w-md mx-auto">
-          <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4 text-slate-900 dark:text-gray-100 text-center">Welcome back</h2>
-            {error && <div className="mb-3 text-red-500 text-center">{error}</div>}
-            <div className="mb-4">
-              <label className="block mb-1 text-sm text-slate-700 dark:text-slate-300">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
-                required
-              />
+          <Card className="p-8 space-y-6">
+            <div className="space-y-1 text-center">
+              <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
+              <p className="text-sm text-muted-foreground">Enter your credentials to continue</p>
             </div>
-            <div className="mb-6">
-              <label className="block mb-1 text-sm text-slate-700 dark:text-slate-300">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
-                required
-              />
+            {error && <div className="text-sm text-destructive text-center">{error}</div>}
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Email</label>
+                <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Password</label>
+                <Input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+              </div>
+              <Button type="submit" className="w-full" disabled={loading} loading={loading}>
+                Login
+              </Button>
+            </form>
+            <div className="text-xs text-muted-foreground text-center">
+              Don&apos;t have an account? <Link className="underline hover:text-foreground" to="/signup">Sign up</Link>
             </div>
-            <button
-              type="submit"
-              className="w-full bg-sky-600 text-white py-2 rounded-md hover:bg-sky-700 shadow-sm"
-              disabled={loading}
-            >
-              {loading ? 'Logging in...' : 'Login'}
-            </button>
-          </form>
+          </Card>
         </div>
       </div>
     </div>

@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import api from '@/services/api';
+import toast from 'react-hot-toast';
 
 interface User {
   id: string;
@@ -11,8 +13,10 @@ interface User {
 interface AuthContextType {
   user: User | null;
   token: string | null;
+  initializing: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,32 +36,74 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [initializing, setInitializing] = useState(true);
+
+  // Keys (unified)
+  const TOKEN_KEY = 'auth_token';
+  const USER_KEY = 'auth_user';
+
+  const bootstrap = async () => {
+    const storedToken = localStorage.getItem(TOKEN_KEY);
+    if (!storedToken) {
+      setInitializing(false);
+      return;
+    }
+    setToken(storedToken);
+    try {
+      const res = await api.get('/auth/me');
+      setUser(res.data);
+      localStorage.setItem(USER_KEY, JSON.stringify(res.data));
+    } catch (_e) {
+      // invalid token
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
+      setToken(null);
+      setUser(null);
+    } finally {
+      setInitializing(false);
+    }
+  };
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
+    // Attempt cached user first for immediate UI, then validate.
+    const cachedUser = localStorage.getItem(USER_KEY);
+    const cachedToken = localStorage.getItem(TOKEN_KEY);
+    if (cachedUser && cachedToken) {
+      try { setUser(JSON.parse(cachedUser)); setToken(cachedToken); } catch {}
     }
+    bootstrap();
   }, []);
 
   const login = (jwtToken: string, userDetails: User) => {
     setToken(jwtToken);
     setUser(userDetails);
-    localStorage.setItem('token', jwtToken);
-    localStorage.setItem('user', JSON.stringify(userDetails));
+    localStorage.setItem(TOKEN_KEY, jwtToken);
+    localStorage.setItem(USER_KEY, JSON.stringify(userDetails));
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try { await api.post('/auth/logout').catch(() => {}); } catch {}
     setToken(null);
     setUser(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    toast.success('Signed out');
+  };
+
+  const refreshUser = async () => {
+    if (!token) return;
+    try {
+      const res = await api.get('/auth/me');
+      setUser(res.data);
+      localStorage.setItem(USER_KEY, JSON.stringify(res.data));
+    } catch (e) {
+      // If refresh fails, quietly logout to reset state
+      logout();
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, initializing, login, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

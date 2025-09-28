@@ -1,9 +1,15 @@
 import { useState } from 'react';
-import api from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '@/services/api';
+import { useAuth } from '@/context/AuthContext';
+import { Card } from '@/components/ui/Card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/Button';
+import toast from 'react-hot-toast';
 
 const SignupPage = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,9 +21,10 @@ const SignupPage = () => {
     setLoading(true);
     setError('');
     try {
-  const response = await api.post('/auth/signup', { name, email, password });
-      // Assuming response.data contains { token, user }
+      const response = await api.post('/auth/signup', { name, email, password });
       login(response.data.token, response.data.user);
+      toast.success('Account created');
+      navigate('/', { replace: true });
     } catch (err: any) {
       setError(err.response?.data?.message || 'Signup failed');
     } finally {
@@ -26,50 +33,36 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-slate-900 py-12">
+    <div className="py-12">
       <div className="app-container">
         <div className="max-w-md mx-auto">
-          <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4 text-slate-900 dark:text-gray-100 text-center">Create your account</h2>
-            {error && <div className="mb-3 text-red-500 text-center">{error}</div>}
-            <div className="mb-4">
-              <label className="block mb-1 text-sm text-slate-700 dark:text-slate-300">Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
-                required
-              />
+          <Card className="p-8 space-y-6">
+            <div className="space-y-1 text-center">
+              <h1 className="text-2xl font-semibold tracking-tight">Create your account</h1>
+              <p className="text-sm text-muted-foreground">Start reviewing and tracking books</p>
             </div>
-            <div className="mb-4">
-              <label className="block mb-1 text-sm text-slate-700 dark:text-slate-300">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
-                required
-              />
+            {error && <div className="text-sm text-destructive text-center">{error}</div>}
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Name</label>
+                <Input type="text" value={name} onChange={e => setName(e.target.value)} required />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Email</label>
+                <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Password</label>
+                <Input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+              </div>
+              <Button type="submit" className="w-full" disabled={loading} loading={loading}>
+                Sign Up
+              </Button>
+            </form>
+            <div className="text-xs text-muted-foreground text-center">
+              Already have an account? <Link className="underline hover:text-foreground" to="/login">Log in</Link>
             </div>
-            <div className="mb-6">
-              <label className="block mb-1 text-sm text-slate-700 dark:text-slate-300">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-sky-600 text-white py-2 rounded-md hover:bg-sky-700 shadow-sm"
-              disabled={loading}
-            >
-              {loading ? 'Signing up...' : 'Sign Up'}
-            </button>
-          </form>
+          </Card>
         </div>
       </div>
     </div>
