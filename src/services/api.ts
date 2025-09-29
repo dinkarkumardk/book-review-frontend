@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3001/api',
+  baseURL: process.env.NODE_ENV === 'production' 
+    ? 'http://52.4.75.180/api'  // Production backend
+    : 'http://localhost:3001/api',  // Development backend
   withCredentials: true,
 });
 
@@ -62,13 +64,13 @@ export interface Review {
 }
 
 export async function fetchUserFavorites(): Promise<Book[]> {
-  const { data } = await api.get<Book[]>('/profile/favorites');
-  return data;
+  const { data } = await api.get<{ favorites: Book[] }>('/profile/favorites');
+  return data.favorites || [];
 }
 
 export async function fetchUserReviews(): Promise<Review[]> {
-  const { data } = await api.get<Review[]>('/profile/reviews');
-  return data;
+  const { data } = await api.get<{ reviews: Review[] }>('/profile/reviews');
+  return data.reviews || [];
 }
 
 export async function toggleFavorite(bookId: number): Promise<{ message: string }> {
@@ -77,16 +79,16 @@ export async function toggleFavorite(bookId: number): Promise<{ message: string 
 }
 
 export async function fetchHybridRecommendations(): Promise<Book[]> {
-  const { data } = await api.get<Book[]>('/recommendations');
-  return data;
+  const { data } = await api.get<{ recommendations: Book[] }>('/recommendations');
+  return data.recommendations || [];
 }
 
 export async function fetchTopRatedRecommendations(): Promise<Book[]> {
-  const { data } = await api.get<Book[]>('/recommendations/top-rated');
-  return data;
+  const { data } = await api.get<{ recommendations: Book[] }>('/recommendations/top-rated');
+  return data.recommendations || [];
 }
 
 export async function fetchLLMRecommendations(): Promise<Book[]> {
-  const { data } = await api.get<Book[]>('/recommendations/llm');
-  return data;
+  const { data } = await api.get<{ recommendations: Book[] }>('/recommendations/llm');
+  return data.recommendations || [];
 }

@@ -31,9 +31,9 @@ const HomePage = () => {
     setError('');
     api.get('/books', { params: { page } })
       .then(res => {
-        const data = res.data.data || res.data.books || res.data;
-        setBooks(data);
-        setTotalPages(res.data.totalPages || 1);
+        const data = res.data.books || res.data.data || res.data;
+        setBooks(Array.isArray(data) ? data : []);
+        setTotalPages(res.data.totalPages || Math.ceil((res.data.total || 0) / 10));
       })
       .catch(() => setError('Failed to load books'))
       .finally(() => setLoading(false));

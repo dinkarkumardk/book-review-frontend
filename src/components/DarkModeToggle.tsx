@@ -11,7 +11,6 @@ export function DarkModeToggle() {
     <Button
       type="button"
       variant="ghost"
-      tone="neutral"
       aria-label="Toggle dark mode"
       onClick={toggleTheme}
       className="h-9 w-9 p-0 rounded-full"

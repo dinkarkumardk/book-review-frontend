@@ -22,7 +22,8 @@ export const BookListPage: React.FC = () => {
     api.get('/books')
       .then(res => {
         if (!active) return;
-        setBooks(res.data || []);
+        const booksData = res.data.books || res.data || [];
+        setBooks(Array.isArray(booksData) ? booksData : []);
         setFetchState({ loading: false, error: null });
       })
       .catch(err => {
