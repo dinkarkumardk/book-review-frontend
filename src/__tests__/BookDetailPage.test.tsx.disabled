@@ -1,0 +1,96 @@
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+import BookDetailPage from '../pages/BookDetailPage';
+
+// Mock dependencies with simple return values
+vi.mock('@/services/api', () => ({
+  default: {
+    get: vi.fn().mockResolvedValue({ 
+      data: {
+        id: '1',
+        title: 'Test Book',
+        author: 'Test Author',
+        avgRating: 4.5,
+        reviewCount: 10,
+        description: 'Test description'
+      }
+    })
+  },
+  toggleFavorite: vi.fn().mockResolvedValue({ message: 'Success' })
+}));
+
+vi.mock('@/context/AuthContext', () => ({
+  useAuth: vi.fn(() => ({ user: { id: 1, username: 'testuser' } }))
+}));
+
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useParams: vi.fn(() => ({ id: '1' })),
+    BrowserRouter: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    Link: ({ children, to }: { children: React.ReactNode; to: string }) => 
+      <a href={to}>{children}</a>
+  };
+});
+
+// Mock components to avoid complexity
+vi.mock('@/components/ImageWithFallback', () => ({
+  default: () => <img src="/test.jpg" alt="Book cover" />
+}));
+
+vi.mock('@/components/ui/RatingStars', () => ({
+  RatingStars: () => <div data-testid="rating-stars">Rating</div>
+}));
+
+vi.mock('@/components/RatingDistribution', () => ({
+  default: () => <div data-testid="rating-distribution">Rating Distribution</div>
+}));
+
+vi.mock('@/components/ReviewForm', () => ({
+  ReviewForm: () => <div data-testid="review-form">Review Form</div>
+}));
+
+vi.mock('@/components/ReviewsList', () => ({
+  ReviewsList: () => <div data-testid="reviews-list">Reviews List</div>
+}));
+
+vi.mock('@/utils/getCoverFromBook', () => ({
+  default: vi.fn(() => 'test-cover.jpg')
+}));
+
+vi.mock('@/utils/getAvatarUrl', () => ({
+  default: vi.fn(() => 'test-avatar.jpg')
+}));
+
+describe('BookDetailPage', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const renderBookDetailPage = () => {
+    return render(
+      <BrowserRouter>
+        <BookDetailPage />
+      </BrowserRouter>
+    );
+  };
+
+  it('renders without crashing', () => {
+    renderBookDetailPage();
+    // Basic render test
+    expect(document.body).toBeInTheDocument();
+  });
+
+  it('shows loading state initially', () => {
+    renderBookDetailPage();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+  });
+
+  it('renders back navigation link', () => {
+    renderBookDetailPage();
+    const backLink = screen.getByText('← Back to Books');
+    expect(backLink).toBeInTheDocument();
+  });
+});

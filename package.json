@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build-only": "vite build",
+    "build:vercel": "npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "serve": "vite preview --port 4173",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",

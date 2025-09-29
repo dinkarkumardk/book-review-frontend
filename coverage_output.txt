@@ -1,0 +1,1527 @@
+
+ RUN  v3.2.4 /Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend
+      Coverage enabled with v8
+
+stderr | src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers favorite toggle functionality
+An update to BookCard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > renders profile page with user information
+An update to ProfilePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ProfilePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > renders empty state when no reviews 30ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > applies custom className to empty state 1ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > shows edit and delete buttons for own reviews 67ms
+stderr | src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > calls logout when logout button is clicked
+An update to ProfilePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ProfilePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > shows login message when user is not authenticated 34ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > renders profile page with user information 36ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > handles unauthenticated user 5ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > calls logout when logout button is clicked 31ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > loads favorites tab by default 27ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > handles localStorage getItem errors gracefully 146ms
+stderr | src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers favorite button event propagation stop
+An update to BookCard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers favorite toggle functionality 160ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers favorite toggle with already favorited book 10ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers invalid numericId handling 16ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers book article structure 6ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers title and author rendering 4ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers rating display 3ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers zero rating display 5ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers cover image rendering with coverImage prop 2ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers cover image rendering without coverImage prop 4ms
+stderr | src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers API error handling for favorite toggle
+An update to BookCard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to BookCard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/components/__tests__/ReviewForm.simple.test.tsx > ReviewForm Component > renders the review form 151ms
+ ✓ src/components/__tests__/ReviewForm.simple.test.tsx > ReviewForm Component > shows star rating buttons 6ms
+ ✓ src/components/__tests__/ReviewForm.simple.test.tsx > ReviewForm Component > allows rating selection 23ms
+ ✓ src/components/__tests__/ReviewForm.simple.test.tsx > ReviewForm Component > handles text input 6ms
+ ✓ src/components/__tests__/ReviewForm.simple.test.tsx > ReviewForm Component > shows login prompt when user not authenticated 4ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > renders form with star rating and textarea when authenticated 153ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > updates rating when star is clicked 50ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > updates content when textarea is changed 11ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > enters edit mode when edit button is clicked 129ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > switches to reviews tab and loads reviews 74ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers favorite button event propagation stop 54ms
+ ✓ src/components/__tests__/BookCard.coverage.test.tsx > BookCard - Coverage Tests > covers API error handling for favorite toggle 7ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > starts edit mode when edit button clicked 82ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > cancels edit mode when cancel button clicked 24ms
+ × src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > disables submit button when rating or content is missing 37ms
+   → Unable to find an element with the text: Submit Review. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<form[39m
+      [33mclass[39m=[32m"space-y-4"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center gap-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 1 star"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 2 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 3 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 4 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 5 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div>[39m
+        [36m<textarea[39m
+          [33mclass[39m=[32m"w-full resize-none rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"[39m
+          [33mplaceholder[39m=[32m"Share your thoughts about this book..."[39m
+          [33mrequired[39m=[32m""[39m
+          [33mrows[39m=[32m"4"[39m
+        [36m/>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex justify-end"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] bg-sky-600 text-white hover:bg-sky-500 h-8 px-3"[39m
+          [33mdisabled[39m=[32m""[39m
+          [33mtype[39m=[32m"submit"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"inline-flex items-center gap-2"[39m
+          [36m>[39m
+            [0mPost Review[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</form>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > submits form successfully 38ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > resets form after successful submission 13ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > handles API errors during submission 12ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > handles generic API errors 13ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > loads draft from localStorage 5ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > handles malformed localStorage data gracefully 5ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > cancels edit mode when cancel button is clicked 104ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > updates rating in edit mode 80ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > updates text content in edit mode 15ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > switches to recommendations tab and loads recommendations 46ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > shows recommendation mode options when on recs tab 11ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > switches recommendation mode to Top Rated 14ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > switches recommendation mode to LLM 14ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > shows empty state for favorites 9ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > shows empty state for reviews 9ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > shows empty state for recommendations 7ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > handles API errors and shows error message 6ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > handles LLM recommendations error with custom error message 9ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > shows loading state 2ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > formats review dates correctly 8ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > displays book ratings and review counts correctly 9ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > saves edit successfully 169ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > handles save edit without onUpdate callback 19ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > does not save when text is empty 9ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > does not save when rating is zero 10ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > handles save edit error 10ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > handles save edit error without message 21ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > deletes review when confirmed 18ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > does not delete review when not confirmed 5ms
+ ✓ src/components/__tests__/DarkModeToggle.test.tsx > DarkModeToggle Component > renders toggle button with proper accessibility 27ms
+ ✓ src/components/__tests__/DarkModeToggle.test.tsx > DarkModeToggle Component > applies correct button styling classes 2ms
+ ✓ src/components/__tests__/DarkModeToggle.test.tsx > DarkModeToggle Component > calls toggleTheme when clicked 60ms
+ ✓ src/components/__tests__/DarkModeToggle.test.tsx > DarkModeToggle Component > renders button properly 2ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > saves edit and calls onUpdate callback 15ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > calls onReload when save response has no data 14ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > handles save edit API errors 13ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > handles books with no ratings 7ms
+ ✓ src/pages/__tests__/ProfilePage.tabs.test.tsx > ProfilePage Tab Navigation Tests > does not reload data when switching to already loaded tab 25ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > handles delete error 7ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > handles delete error without message 7ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > disables buttons when operation is busy 7ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > renders review with title when present 3ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > handles review without text content 3ms
+ ✓ src/components/__tests__/ReviewsList.coverage.test.tsx > ReviewsList - Coverage Tests > formats date correctly 3ms
+ ✓ src/components/__tests__/DarkModeToggle.test.tsx > DarkModeToggle Component - Dark Theme > shows moon icon in dark mode 12ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers setDraftReview with empty content removal path 448ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers rating validation path 29ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers content validation path 20ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers both rating and content validation success 25ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers authenticated user state with Profile and Logout 30ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > renders book card with basic information 29ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > renders book cover image 6ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > creates link to book detail page 34ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > shows rating when provided 11ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > shows genres when showGenres is true 6ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > hides genres when showGenres is false 4ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > applies custom className 4ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers logout functionality with navigation and toast 104ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers unauthenticated user state with Login and Signup 5ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers NavLinkItem component with active state 10ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers NavLinkItem component with inactive state 9ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers all navigation links and their hrefs 12ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers signup link for unauthenticated users 7ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers brand link navigation 6ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers tagline rendering on desktop 4ms
+ ✓ src/components/__tests__/Navbar.coverage.test.tsx > Navbar - Coverage Tests > covers accessibility attributes 8ms
+ ✓ src/__tests__/main.test.tsx > main.tsx > renders without crashing 435ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > calls onClick handler when provided 11ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > handles book without rating gracefully 2ms
+ ✓ src/components/__tests__/BookCardShadcn.test.tsx > BookCardShadcn Component > applies hover effect classes 7ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > saves draft to localStorage when user is authenticated 420ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers localStorage setItem when user is authenticated 420ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers no draft saving when user is not authenticated 3ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers successful form submission path 25ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers API error handling during submission 22ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers generic API error handling 19ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers draft loading from localStorage on mount 8ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers malformed localStorage data handling 6ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers localStorage setItem error handling 5ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers custom className application 3ms
+ ✓ src/components/__tests__/ReviewForm.coverage.test.tsx > ReviewForm - Coverage Tests > covers form reset after successful submission 32ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > removes draft when content is empty 415ms
+ × src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > does not save if rating or text is empty 1021ms
+   → [2mexpect([22m[31melement[39m[2m).toBeDisabled()[22m
+
+Received element is not disabled:
+  [31m<span
+  class="inline-flex items-center gap-2"
+/>[39m
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"space-y-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"rounded-md border p-4 bg-background/50 space-y-2"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center justify-between gap-4"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"text-sm font-medium"[39m
+            [36m>[39m
+              [0mTest User[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex items-center gap-2"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center gap-1"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"flex items-center"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-3"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex items-center gap-1"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<textarea[39m
+              [33mclass[39m=[32m"w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"[39m
+              [33mrows[39m=[32m"4"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex justify-end gap-2"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 h-8 px-3"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"inline-flex items-center gap-2"[39m
+                [36m>[39m
+                  [0mCancel[0m
+                [36m</span>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] bg-sky-600 text-white hover:bg-sky-500 h-8 px-3"[39m
+                [33mdisabled[39m=[32m""[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"inline-flex items-center gap-2"[39m
+                [36m>[39m
+                  [0mSave[0m
+                [36m</span>[39m
+              [36m</button>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"text-[10px] uppercase tracking-wide text-muted-foreground"[39m
+          [36m>[39m
+            [0m1/1/2023[0m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"rounded-md border p-4 bg-background/50 space-y-2"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center justify-between gap-4"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"text-sm font-medium"[39m
+            [36m>[39m
+              [0mOther User[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex items-center gap-2"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center gap-1"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"flex items-center"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-muted-foreground"[39m
+                  [36m>[39m
+                    [0m☆[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-muted-foreground"[39m
+                  [36m>[39m
+                    [0m☆[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-sm leading-relaxed whitespace-pre-wrap break-words"[39m
+          [36m>[39m
+            [0mDecent read[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"text-[10px] uppercase tracking-wide text-muted-foreground"[39m
+          [36m>[39m
+            [0m1/2/2023[0m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > deletes review when delete button is clicked and confirmed 9ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > does not delete review when confirmation is cancelled 4ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > handles delete API errors 6ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > handles API error with response message 15ms
+ ✓ src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > disables buttons when operation is in progress 14ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > does not save draft when user is not authenticated 507ms
+ × src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > shows loading state during submission 7ms
+   → Unable to find a label with the text of: 4 stars
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<form[39m
+      [33mclass[39m=[32m"space-y-4"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center gap-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 1 star"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 2 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 3 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 4 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 5 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div>[39m
+        [36m<textarea[39m
+          [33mclass[39m=[32m"w-full resize-none rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"[39m
+          [33mplaceholder[39m=[32m"Share your thoughts about this book..."[39m
+          [33mrequired[39m=[32m""[39m
+          [33mrows[39m=[32m"4"[39m
+        [36m/>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex justify-end"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] bg-sky-600 text-white hover:bg-sky-500 h-8 px-3"[39m
+          [33mdisabled[39m=[32m""[39m
+          [33mtype[39m=[32m"submit"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"inline-flex items-center gap-2"[39m
+          [36m>[39m
+            [0mPost Review[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</form>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > handles localStorage setItem errors gracefully 4ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > applies custom className 2ms
+ ✓ src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > renders form element correctly 4ms
+ ✓ src/components/__tests__/SearchBar.simple.test.tsx > SearchBar Component > renders search input 27ms
+ ✓ src/components/__tests__/SearchBar.advanced.test.tsx > SearchBar Component - Advanced > updates input value when typing 31ms
+ ✓ src/components/__tests__/SearchBar.advanced.test.tsx > SearchBar Component - Advanced > submits search when pressing Enter in form 5ms
+ ✓ src/components/__tests__/SearchBar.advanced.test.tsx > SearchBar Component - Advanced > submits empty search 40ms
+ ✓ src/components/__tests__/SearchBar.advanced.test.tsx > SearchBar Component - Advanced > prevents default form submission behavior 2ms
+ ✓ src/components/__tests__/SearchBar.advanced.test.tsx > SearchBar Component - Advanced > has proper accessibility attributes 5ms
+ ✓ src/components/__tests__/SearchBar.simple.test.tsx > SearchBar Component > calls onSearch when form is submitted 81ms
+ ✓ src/context/__tests__/ThemeContext.test.tsx > ThemeContext > provides default light theme when no stored preference 58ms
+ ✓ src/context/__tests__/ThemeContext.test.tsx > ThemeContext > uses stored theme preference 2ms
+ ✓ src/context/__tests__/ThemeContext.test.tsx > ThemeContext > toggles theme correctly 7ms
+ ✓ src/context/__tests__/ThemeContext.test.tsx > ThemeContext > sets theme directly 4ms
+ ✓ src/context/__tests__/ThemeContext.test.tsx > ThemeContext > updates document dataset when theme changes 3ms
+ ✓ src/context/__tests__/ThemeContext.test.tsx > ThemeContext > attempts to save to localStorage when theme changes 2ms
+ ✓ src/components/__tests__/ReviewsList.simple.test.tsx > ReviewsList Component > renders reviews list 60ms
+ ✓ src/components/__tests__/ReviewsList.simple.test.tsx > ReviewsList Component > shows edit/delete buttons for user own reviews 5ms
+ ✓ src/components/__tests__/ReviewsList.simple.test.tsx > ReviewsList Component > handles empty reviews list 1ms
+ ✓ src/components/__tests__/ReviewsList.simple.test.tsx > ReviewsList Component > hides edit/delete buttons for other users reviews 2ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > renders with default props 20ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > renders correct number of stars based on value 8ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > shows rating value when showValue is true 4ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > hides rating value when showValue is false 2ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > displays rating count when provided 2ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > handles different outOf values 2ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > applies different size classes 4ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > applies custom className 2ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > handles null value gracefully 1ms
+ ✓ src/components/ui/__tests__/ratingstars.test.tsx > RatingStars Component > clamps value within bounds 3ms
+stderr | VirtualConsole.<anonymous> (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/virtual-console.js:29:45)
+Error: Cross origin http://localhost:3000 forbidden
+    at dispatchError (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/xhr/xhr-utils.js:62:19)
+    at Object.validCORSHeaders (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/xhr/xhr-utils.js:74:5)
+    at receiveResponse (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/xhr/XMLHttpRequest-impl.js:794:19)
+    at Request.<anonymous> (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/xhr/XMLHttpRequest-impl.js:658:43)
+    at Request.emit (node:events:507:28)
+    at Request._processResponse (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/helpers/http-request.js:240:12)
+    at ClientRequest.<anonymous> (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/helpers/http-request.js:107:12)
+    at Object.onceWrapper (node:events:622:26)
+    at ClientRequest.emit (node:events:507:28)
+    at HTTPParser.parserOnIncomingClient [as onIncoming] (node:_http_client:716:27) [90mundefined[39m
+
+ ✓ src/__tests__/App.test.tsx > App Component > renders app components 63ms
+ ✓ src/pages/__tests__/HomePage.simple.test.tsx > HomePage Component > renders without crashing 39ms
+stderr | VirtualConsole.<anonymous> (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/virtual-console.js:29:45)
+Error: Cross origin http://localhost:3000 forbidden
+    at dispatchError (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/xhr/xhr-utils.js:62:19)
+    at Object.validCORSHeaders (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/xhr/xhr-utils.js:74:5)
+    at receiveResponse (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/xhr/XMLHttpRequest-impl.js:794:19)
+    at Request.<anonymous> (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/xhr/XMLHttpRequest-impl.js:658:43)
+    at Request.emit (node:events:507:28)
+    at Request._processResponse (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/helpers/http-request.js:240:12)
+    at ClientRequest.<anonymous> (/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/node_modules/jsdom/lib/jsdom/living/helpers/http-request.js:107:12)
+    at Object.onceWrapper (node:events:622:26)
+    at ClientRequest.emit (node:events:507:28)
+    at HTTPParser.parserOnIncomingClient [as onIncoming] (node:_http_client:716:27) [90mundefined[39m
+
+stdout | src/components/__tests__/BookCard.simple.test.tsx > BookCard Component > renders book title
+[ImageWithFallback] sources: [
+  [32m'https://example.com/cover.jpg'[39m,
+  [32m'https://images.weserv.nl/?url=example.com%2Fcover.jpg'[39m,
+  [32m'/default-cover.svg'[39m
+] currentAttempt: [33m0[39m current: https://example.com/cover.jpg
+
+stdout | src/components/__tests__/BookCard.simple.test.tsx > BookCard Component > renders book author
+[ImageWithFallback] sources: [
+  [32m'https://example.com/cover.jpg'[39m,
+  [32m'https://images.weserv.nl/?url=example.com%2Fcover.jpg'[39m,
+  [32m'/default-cover.svg'[39m
+] currentAttempt: [33m0[39m current: https://example.com/cover.jpg
+
+ ✓ src/components/__tests__/BookCard.simple.test.tsx > BookCard Component > renders book title 26ms
+ ✓ src/components/__tests__/BookCard.simple.test.tsx > BookCard Component > renders book author 3ms
+stdout | src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > renders with provided source
+[ImageWithFallback] sources: [
+  [32m'https://example.com/image.jpg'[39m,
+  [32m'https://images.weserv.nl/?url=example.com%2Fimage.jpg'[39m,
+  [32m'/default-cover.svg'[39m
+] currentAttempt: [33m0[39m current: https://example.com/image.jpg
+
+stdout | src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > falls back to proxy source on error
+[ImageWithFallback] sources: [
+  [32m'https://example.com/broken.jpg'[39m,
+  [32m'https://images.weserv.nl/?url=example.com%2Fbroken.jpg'[39m,
+  [32m'/default-cover.svg'[39m
+] currentAttempt: [33m0[39m current: https://example.com/broken.jpg
+[ImageWithFallback] failed to load https://example.com/broken.jpg error: SyntheticBaseEvent {
+  _reactName: [32m'onError'[39m,
+  _targetInst: [1mnull[22m,
+  type: [32m'error'[39m,
+  nativeEvent: Event { isTrusted: [36m[Getter][39m },
+  target: [36m<ref *1>[39m HTMLImageElement {
+    [32m'__reactFiber$6x8mkqg1lgc'[39m: FiberNode {
+      tag: [33m5[39m,
+      key: [1mnull[22m,
+      elementType: [32m'img'[39m,
+      type: [32m'img'[39m,
+      stateNode: [36m[Circular *1][39m,
+      return: [36m[FiberNode][39m,
+      child: [1mnull[22m,
+      sibling: [1mnull[22m,
+      index: [33m0[39m,
+      ref: [1mnull[22m,
+      refCleanup: [1mnull[22m,
+      pendingProps: [36m[Object][39m,
+      memoizedProps: [36m[Object][39m,
+      updateQueue: [1mnull[22m,
+      memoizedState: [1mnull[22m,
+      dependencies: [1mnull[22m,
+      mode: [33m1[39m,
+      flags: [33m4[39m,
+      subtreeFlags: [33m0[39m,
+      deletions: [1mnull[22m,
+      lanes: [33m0[39m,
+      childLanes: [33m0[39m,
+      alternate: [1mnull[22m,
+      actualDuration: [33m-0[39m,
+      actualStartTime: [33m1383.51725[39m,
+      selfBaseDuration: [33m-0[39m,
+      treeBaseDuration: [33m-0[39m,
+      _debugInfo: [1mnull[22m,
+      _debugOwner: [36m[FiberNode][39m,
+      _debugStack: Error: react-stack-top-frame
+          at process.env.NODE_ENV.exports.jsxDEV [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact[24m/cjs/react-jsx-dev-runtime.development.js:344:13[90m)[39m
+          at ImageWithFallback [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39msrc/components/ImageWithFallback.tsx:48:5[90m)[39m
+          at Object.react_stack_bottom_frame [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:23863:20[90m)[39m
+          at renderWithHooks [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:5529:22[90m)[39m
+          at updateFunctionComponent [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:8897:19[90m)[39m
+          at beginWork [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:10522:18[90m)[39m
+          at runWithFiberInDEV [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:1522:13[90m)[39m
+          at performUnitOfWork [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:15140:22[90m)[39m
+          at workLoopSync [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:14956:41[90m)[39m
+          at renderRootSync [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:14936:11[90m)[39m,
+      _debugTask: [1mnull[22m,
+      _debugNeedsRemount: [33mfalse[39m,
+      _debugHookTypes: [1mnull[22m
+    },
+    [32m'__reactProps$6x8mkqg1lgc'[39m: {
+      src: [32m'https://example.com/broken.jpg'[39m,
+      alt: [32m'Test image'[39m,
+      onError: [36m[Function: onError][39m
+    },
+    [32m'__reactEvents$6x8mkqg1lgc'[39m: Set(2) { [32m'error__bubble'[39m, [32m'load__bubble'[39m },
+    _srcURLCacheKey: [32m'https://example.com/broken.jpg'[39m,
+    _srcURLCache: [32m'https://example.com/broken.jpg'[39m
+  },
+  currentTarget: [36m<ref *1>[39m HTMLImageElement {
+    [32m'__reactFiber$6x8mkqg1lgc'[39m: FiberNode {
+      tag: [33m5[39m,
+      key: [1mnull[22m,
+      elementType: [32m'img'[39m,
+      type: [32m'img'[39m,
+      stateNode: [36m[Circular *1][39m,
+      return: [36m[FiberNode][39m,
+      child: [1mnull[22m,
+      sibling: [1mnull[22m,
+      index: [33m0[39m,
+      ref: [1mnull[22m,
+      refCleanup: [1mnull[22m,
+      pendingProps: [36m[Object][39m,
+      memoizedProps: [36m[Object][39m,
+      updateQueue: [1mnull[22m,
+      memoizedState: [1mnull[22m,
+      dependencies: [1mnull[22m,
+      mode: [33m1[39m,
+      flags: [33m4[39m,
+      subtreeFlags: [33m0[39m,
+      deletions: [1mnull[22m,
+      lanes: [33m0[39m,
+      childLanes: [33m0[39m,
+      alternate: [1mnull[22m,
+      actualDuration: [33m-0[39m,
+      actualStartTime: [33m1383.51725[39m,
+      selfBaseDuration: [33m-0[39m,
+      treeBaseDuration: [33m-0[39m,
+      _debugInfo: [1mnull[22m,
+      _debugOwner: [36m[FiberNode][39m,
+      _debugStack: Error: react-stack-top-frame
+          at process.env.NODE_ENV.exports.jsxDEV [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact[24m/cjs/react-jsx-dev-runtime.development.js:344:13[90m)[39m
+          at ImageWithFallback [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39msrc/components/ImageWithFallback.tsx:48:5[90m)[39m
+          at Object.react_stack_bottom_frame [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:23863:20[90m)[39m
+          at renderWithHooks [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:5529:22[90m)[39m
+          at updateFunctionComponent [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:8897:19[90m)[39m
+          at beginWork [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:10522:18[90m)[39m
+          at runWithFiberInDEV [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:1522:13[90m)[39m
+          at performUnitOfWork [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:15140:22[90m)[39m
+          at workLoopSync [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:14956:41[90m)[39m
+          at renderRootSync [90m(/Users/dinkark/Documents/AI-Talentica/AI Native M2/BookVerse/book-review-frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom-client.development.js:14936:11[90m)[39m,
+      _debugTask: [1mnull[22m,
+      _debugNeedsRemount: [33mfalse[39m,
+      _debugHookTypes: [1mnull[22m
+    },
+    [32m'__reactProps$6x8mkqg1lgc'[39m: {
+      src: [32m'https://example.com/broken.jpg'[39m,
+      alt: [32m'Test image'[39m,
+      onError: [36m[Function: onError][39m
+    },
+    [32m'__reactEvents$6x8mkqg1lgc'[39m: Set(2) { [32m'error__bubble'[39m, [32m'load__bubble'[39m },
+    _srcURLCacheKey: [32m'https://example.com/broken.jpg'[39m,
+    _srcURLCache: [32m'https://example.com/broken.jpg'[39m
+  },
+  eventPhase: [33m2[39m,
+  bubbles: [33mfalse[39m,
+  cancelable: [33mfalse[39m,
+  timeStamp: [33m1759121086975[39m,
+  defaultPrevented: [33mfalse[39m,
+  isTrusted: [33mfalse[39m,
+  isDefaultPrevented: [36m[Function: functionThatReturnsFalse][39m,
+  isPropagationStopped: [36m[Function: functionThatReturnsFalse][39m
+}
+[ImageWithFallback] sources: [
+  [32m'https://example.com/broken.jpg'[39m,
+  [32m'https://images.weserv.nl/?url=example.com%2Fbroken.jpg'[39m,
+  [32m'/default-cover.svg'[39m
+] currentAttempt: [33m1[39m current: https://images.weserv.nl/?url=example.com%2Fbroken.jpg
+
+stdout | src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > renders default image when no src provided
+[ImageWithFallback] sources: [ [32m'/default-cover.svg'[39m ] currentAttempt: [33m0[39m current: /default-cover.svg
+
+stdout | src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > applies custom className
+[ImageWithFallback] sources: [ [32m'image.jpg'[39m, [32m'/default-cover.svg'[39m ] currentAttempt: [33m0[39m current: image.jpg
+
+stdout | src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > forwards other props to img element
+[ImageWithFallback] sources: [ [32m'image.jpg'[39m, [32m'/default-cover.svg'[39m ] currentAttempt: [33m0[39m current: image.jpg
+
+stdout | src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > handles null src gracefully
+[ImageWithFallback] sources: [ [32m'/default-cover.svg'[39m ] currentAttempt: [33m0[39m current: /default-cover.svg
+
+ ✓ src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > renders with provided source 22ms
+ ✓ src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > falls back to proxy source on error 15ms
+ ✓ src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > renders default image when no src provided 1ms
+ ✓ src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > applies custom className 1ms
+ ✓ src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > forwards other props to img element 1ms
+ ✓ src/components/__tests__/ImageWithFallback.test.tsx > ImageWithFallback Component > handles null src gracefully 1ms
+ ✓ src/components/__tests__/RatingDistribution.test.tsx > RatingDistribution Component > returns null when no ratings provided 10ms
+ ✓ src/components/__tests__/RatingDistribution.test.tsx > RatingDistribution Component > renders all star buckets from 5 to 1 25ms
+ ✓ src/components/__tests__/RatingDistribution.test.tsx > RatingDistribution Component > calculates percentages correctly 5ms
+ ✓ src/components/__tests__/RatingDistribution.test.tsx > RatingDistribution Component > applies custom className 2ms
+ ✓ src/components/__tests__/RatingDistribution.test.tsx > RatingDistribution Component > renders correct number of rating bars 4ms
+ ✓ src/components/__tests__/RatingDistribution.test.tsx > RatingDistribution Component > handles single rating correctly 3ms
+ ✓ src/components/__tests__/RatingDistribution.test.tsx > RatingDistribution Component > renders progress bars with correct structure 5ms
+ ✓ src/components/ui/__tests__/Button.test.tsx > Button Component > renders with default variant and size 23ms
+ ✓ src/components/ui/__tests__/Button.test.tsx > Button Component > renders with destructive variant 2ms
+ ✓ src/components/ui/__tests__/Button.test.tsx > Button Component > renders with outline variant 2ms
+ ✓ src/components/ui/__tests__/Button.test.tsx > Button Component > renders with secondary variant 1ms
+ ✓ src/components/ui/__tests__/Button.test.tsx > Button Component > renders with ghost variant 1ms
+ ✓ src/components/ui/__tests__/Button.test.tsx > Button Component > renders with different sizes 2ms
+ ✓ src/components/ui/__tests__/Button.test.tsx > Button Component > applies custom className 1ms
+ ✓ src/components/ui/__tests__/Button.test.tsx > Button Component > handles disabled state 1ms
+ ✓ src/components/__tests__/Navbar.simple.test.tsx > Navbar Component > renders without crashing 93ms
+ ✓ src/components/__tests__/Navbar.simple.test.tsx > Navbar Component > shows navigation links 6ms
+ ✓ src/__tests__/LoginPage.test.tsx > LoginPage > renders login form 76ms
+ ✓ src/components/__tests__/errorboundary.test.tsx > ErrorBoundary Component > renders children when there is no error 29ms
+ ✓ src/components/__tests__/errorboundary.test.tsx > ErrorBoundary Component > renders error UI when child component throws 18ms
+ ✓ src/components/__tests__/errorboundary.test.tsx > ErrorBoundary Component > renders home link with correct href 4ms
+ ✓ src/components/__tests__/errorboundary.test.tsx > ErrorBoundary Component > applies correct styling to error UI 3ms
+ ✓ src/__tests__/SignupPage.test.tsx > SignupPage > renders signup form 83ms
+stderr | src/context/__tests__/AuthContext.simple2.test.tsx > AuthContext Provider > restores session from localStorage
+An update to AuthProvider inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AuthProvider inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AuthProvider inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/BookDetailPage.simple.test.tsx > BookDetailPage > shows loading state initially
+An update to BookDetailPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/BookDetailPage.simple.test.tsx > BookDetailPage > shows loading state initially
+An update to BookDetailPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/BookDetailPage.simple.test.tsx > BookDetailPage > shows loading initially
+An update to BookDetailPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/BookDetailPage.simple.test.tsx > BookDetailPage > shows loading initially
+An update to BookDetailPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/BookDetailPage.simple.test.tsx > BookDetailPage > handles page routing
+An update to BookDetailPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/BookDetailPage.simple.test.tsx > BookDetailPage > handles page routing
+An update to BookDetailPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/context/__tests__/AuthContext.simple2.test.tsx > AuthContext Provider > provides authentication context 21ms
+ ✓ src/context/__tests__/AuthContext.simple2.test.tsx > AuthContext Provider > handles login and logout actions 6ms
+ ✓ src/context/__tests__/AuthContext.simple2.test.tsx > AuthContext Provider > restores session from localStorage 4ms
+ ✓ src/__tests__/BookDetailPage.simple.test.tsx > BookDetailPage > shows loading state initially 25ms
+ ✓ src/__tests__/BookDetailPage.simple.test.tsx > BookDetailPage > shows loading initially 2ms
+ ✓ src/__tests__/BookDetailPage.simple.test.tsx > BookDetailPage > handles page routing 2ms
+stderr | src/__tests__/HomePage.test.tsx > HomePage > renders homepage components
+An update to HomePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to HomePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/HomePage.test.tsx > HomePage > renders homepage components
+An update to HomePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/HomePage.test.tsx > HomePage > renders without crashing
+An update to HomePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to HomePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/__tests__/HomePage.test.tsx > HomePage > renders without crashing
+An update to HomePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/components/ui/__tests__/skeleton.test.tsx > Skeleton Component > renders with default styling and shimmer effect 20ms
+ ✓ src/components/ui/__tests__/skeleton.test.tsx > Skeleton Component > renders without shimmer when shimmer is false 1ms
+ ✓ src/components/ui/__tests__/skeleton.test.tsx > Skeleton Component > applies custom className 2ms
+ ✓ src/components/ui/__tests__/skeleton.test.tsx > Skeleton Component > forwards other props 2ms
+ ✓ src/components/ui/__tests__/skeleton.test.tsx > Skeleton Component > maintains base styles when custom props are applied 1ms
+ ✓ src/__tests__/HomePage.test.tsx > HomePage > renders homepage components 31ms
+ ✓ src/__tests__/HomePage.test.tsx > HomePage > renders without crashing 5ms
+ ✓ src/components/ui/__tests__/badge.test.tsx > Badge Component > renders badge with default variant 31ms
+ ✓ src/components/ui/__tests__/badge.test.tsx > Badge Component > renders secondary variant 1ms
+ ✓ src/components/ui/__tests__/badge.test.tsx > Badge Component > renders outline variant 1ms
+ ✓ src/components/ui/__tests__/badge.test.tsx > Badge Component > applies custom className 1ms
+ ✓ src/components/ui/__tests__/badge.test.tsx > Badge Component > forwards other props 1ms
+ ✓ src/components/__tests__/Footer.test.tsx > Footer Component > renders footer with correct structure 17ms
+ ✓ src/components/__tests__/Footer.test.tsx > Footer Component > displays BookVerse brand and current year 4ms
+ ✓ src/components/__tests__/Footer.test.tsx > Footer Component > renders navigation links 3ms
+ ✓ src/components/__tests__/Footer.test.tsx > Footer Component > has proper footer navigation label 2ms
+ ✓ src/components/__tests__/Footer.test.tsx > Footer Component > applies hover styles to navigation links 2ms
+ ✓ src/components/__tests__/Footer.test.tsx > Footer Component > has responsive flex layout 4ms
+ ✓ src/components/__tests__/ProtectedRoute.test.tsx > ProtectedRoute Component > returns null when initializing 18ms
+ ✓ src/components/__tests__/ProtectedRoute.test.tsx > ProtectedRoute Component > redirects to login when user is not authenticated 9ms
+ ✓ src/components/__tests__/ProtectedRoute.test.tsx > ProtectedRoute Component > redirects to custom route when specified 1ms
+ ✓ src/components/__tests__/ProtectedRoute.test.tsx > ProtectedRoute Component > renders Outlet when user is authenticated 4ms
+ ✓ src/context/__tests__/AuthContext.advanced.test.tsx > AuthContext > provides initial auth state 21ms
+ ✓ src/context/__tests__/AuthContext.advanced.test.tsx > AuthContext > handles login 4ms
+ ✓ src/context/__tests__/AuthContext.advanced.test.tsx > AuthContext > handles logout 4ms
+stderr | src/__tests__/ProfilePage.test.tsx > ProfilePage > renders profile page header
+An update to ProfilePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ProfilePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/__tests__/ProfilePage.test.tsx > ProfilePage > renders profile page header 31ms
+ ✓ src/components/__tests__/Layout.test.tsx > Layout Component > renders children within layout structure 25ms
+ ✓ src/components/__tests__/Layout.test.tsx > Layout Component > has proper structure classes 1ms
+ ✓ src/components/__tests__/Layout.test.tsx > Layout Component > renders main content area with children 3ms
+ ✓ src/components/ui/__tests__/Card.test.tsx > Card Components > renders Card component 20ms
+ ✓ src/components/ui/__tests__/Card.test.tsx > Card Components > renders CardHeader component 1ms
+ ✓ src/components/ui/__tests__/Card.test.tsx > Card Components > renders CardTitle component 1ms
+ ✓ src/components/ui/__tests__/Card.test.tsx > Card Components > renders CardDescription component 2ms
+ ✓ src/components/ui/__tests__/Card.test.tsx > Card Components > renders CardContent component 2ms
+ ✓ src/components/ui/__tests__/Card.test.tsx > Card Components > Card accepts custom className 1ms
+ ✓ src/components/ui/__tests__/Card.test.tsx > Card Components > CardTitle accepts custom className 1ms
+ ✓ src/components/ui/__tests__/toast-provider.test.tsx > ToastProvider Component > renders without crashing 11ms
+ ✓ src/components/ui/__tests__/toast-provider.test.tsx > ToastProvider Component > renders toaster component 5ms
+ ✓ src/components/ui/__tests__/toast-provider.test.tsx > ToastProvider Component > applies correct position configuration 3ms
+ ✓ src/components/ui/__tests__/toast-provider.test.tsx > ToastProvider Component > has proper toast styling configuration 1ms
+ ✓ src/components/ui/__tests__/input.test.tsx > Input Component > renders input with default styling 15ms
+ ✓ src/components/ui/__tests__/input.test.tsx > Input Component > applies custom className 1ms
+ ✓ src/components/ui/__tests__/input.test.tsx > Input Component > forwards props to input element 2ms
+ ✓ src/components/ui/__tests__/input.test.tsx > Input Component > supports disabled state 1ms
+ ✓ src/components/ui/__tests__/input.test.tsx > Input Component > accepts ref 1ms
+ ✓ src/components/ui/__tests__/textarea.test.tsx > Textarea Component > renders textarea with default styling 16ms
+ ✓ src/components/ui/__tests__/textarea.test.tsx > Textarea Component > applies custom className 1ms
+ ✓ src/components/ui/__tests__/textarea.test.tsx > Textarea Component > forwards props to textarea element 2ms
+ ✓ src/components/ui/__tests__/textarea.test.tsx > Textarea Component > supports disabled state 2ms
+ ✓ src/components/ui/__tests__/textarea.test.tsx > Textarea Component > accepts ref 2ms
+ ✓ src/services/__tests__/api.test.ts > API Service Configuration > should be properly configured with correct baseURL 1ms
+ ✓ src/services/__tests__/api.test.ts > API Service Configuration > should have request and response interceptors configured 0ms
+ ✓ src/services/__tests__/api.test.ts > API Service Configuration > should be an axios instance with HTTP methods 0ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > fetchUserFavorites > should fetch user favorites successfully 1ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > fetchUserFavorites > should handle fetchUserFavorites error 1ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > fetchUserReviews > should fetch user reviews successfully 0ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > fetchUserReviews > should handle fetchUserReviews error 0ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > toggleFavorite > should toggle favorite successfully 0ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > toggleFavorite > should handle toggleFavorite error 0ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > fetchHybridRecommendations > should fetch hybrid recommendations successfully 0ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > fetchHybridRecommendations > should handle recommendation fetch error 0ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > fetchTopRatedRecommendations > should fetch top-rated recommendations successfully 0ms
+ ✓ src/services/__tests__/api.test.ts > API Helper Functions > fetchLLMRecommendations > should fetch LLM recommendations successfully 0ms
+ ✓ src/components/ui/__tests__/label.test.tsx > Label Component > renders with default styling 17ms
+ ✓ src/components/ui/__tests__/label.test.tsx > Label Component > applies custom className 1ms
+ ✓ src/components/ui/__tests__/label.test.tsx > Label Component > forwards props to label element 1ms
+ ✓ src/components/ui/__tests__/label.test.tsx > Label Component > supports other HTML label attributes 2ms
+ ✓ src/lib/__tests__/utils.test.ts > utils > cn function > combines class names correctly 4ms
+ ✓ src/lib/__tests__/utils.test.ts > utils > cn function > handles conditional classes 0ms
+ ✓ src/lib/__tests__/utils.test.ts > utils > cn function > handles undefined and null values 0ms
+ ✓ src/lib/__tests__/utils.test.ts > utils > cn function > handles empty input 0ms
+ ✓ src/lib/__tests__/utils.test.ts > utils > cn function > handles array input 0ms
+ ✓ src/utils/__tests__/getCoverFromBook.test.ts > getCoverFromBook > returns null for null/undefined input 1ms
+ ✓ src/utils/__tests__/getCoverFromBook.test.ts > getCoverFromBook > returns direct field values 0ms
+ ✓ src/utils/__tests__/getCoverFromBook.test.ts > getCoverFromBook > returns nested cover object when cover is object 0ms
+ ✓ src/utils/__tests__/getCoverFromBook.test.ts > getCoverFromBook > returns nested image object when image is object 0ms
+ ✓ src/utils/__tests__/getCoverFromBook.test.ts > getCoverFromBook > returns first cover from covers array 0ms
+ ✓ src/utils/__tests__/getCoverFromBook.test.ts > getCoverFromBook > returns first image from images array 0ms
+ ✓ src/utils/__tests__/getCoverFromBook.test.ts > getCoverFromBook > returns cover from attributes object 0ms
+ ✓ src/utils/__tests__/getCoverFromBook.test.ts > getCoverFromBook > returns null when no cover found 0ms
+ ✓ src/utils/__tests__/getCoverFromBook.test.ts > getCoverFromBook > handles priority order correctly 0ms
+ ✓ src/types/__tests__/domain.test.ts > Domain Types > User interface structure 1ms
+ ✓ src/types/__tests__/domain.test.ts > Domain Types > Book interface structure 0ms
+ ✓ src/types/__tests__/domain.test.ts > Domain Types > Review interface structure 0ms
+ ✓ src/types/__tests__/domain.test.ts > Domain Types > handles optional Book fields 0ms
+ ✓ src/types/__tests__/domain.test.ts > Domain Types > handles Review with optional user relation 0ms
+ ✓ src/types/__tests__/domain.test.ts > Domain Types > handles User with optional fields 0ms
+ ✓ src/types/__tests__/domain.test.ts > Domain Types > handles Review with optional title 0ms
+ ✓ src/context/__tests__/AuthContext.simple.test.tsx > AuthContext > should be properly configured 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > disables submit button when rating or content is missing
+TestingLibraryElementError: Unable to find an element with the text: Submit Review. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<form[39m
+      [33mclass[39m=[32m"space-y-4"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center gap-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 1 star"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 2 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 3 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 4 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 5 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div>[39m
+        [36m<textarea[39m
+          [33mclass[39m=[32m"w-full resize-none rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"[39m
+          [33mplaceholder[39m=[32m"Share your thoughts about this book..."[39m
+          [33mrequired[39m=[32m""[39m
+          [33mrows[39m=[32m"4"[39m
+        [36m/>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex justify-end"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] bg-sky-600 text-white hover:bg-sky-500 h-8 px-3"[39m
+          [33mdisabled[39m=[32m""[39m
+          [33mtype[39m=[32m"submit"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"inline-flex items-center gap-2"[39m
+          [36m>[39m
+            [0mPost Review[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</form>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/__tests__/ReviewForm.interactions.test.tsx:118:19
+    116|     // Check that form renders properly 
+    117|     expect(screen.getByRole('textbox')).toBeInTheDocument()
+    118|     expect(screen.getByText('Submit Review')).toBeInTheDocument()
+       |                   ^
+    119|     
+    120|     // Add rating and content
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/components/__tests__/ReviewForm.interactions.test.tsx > ReviewForm Comprehensive Tests > shows loading state during submission
+TestingLibraryElementError: Unable to find a label with the text of: 4 stars
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<form[39m
+      [33mclass[39m=[32m"space-y-4"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center gap-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 1 star"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 2 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 3 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 4 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Rate 5 stars"[39m
+          [33mclass[39m=[32m"text-xl transition-colors text-muted-foreground hover:text-foreground"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m☆[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div>[39m
+        [36m<textarea[39m
+          [33mclass[39m=[32m"w-full resize-none rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"[39m
+          [33mplaceholder[39m=[32m"Share your thoughts about this book..."[39m
+          [33mrequired[39m=[32m""[39m
+          [33mrows[39m=[32m"4"[39m
+        [36m/>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex justify-end"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] bg-sky-600 text-white hover:bg-sky-500 h-8 px-3"[39m
+          [33mdisabled[39m=[32m""[39m
+          [33mtype[39m=[32m"submit"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"inline-flex items-center gap-2"[39m
+          [36m>[39m
+            [0mPost Review[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</form>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getAllByLabelText node_modules/@testing-library/dom/dist/queries/label-text.js:111:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/__tests__/ReviewForm.interactions.test.tsx:296:31
+    294|     
+    295|     // Fill form
+    296|     const fourthStar = screen.getByLabelText('4 stars')
+       |                               ^
+    297|     fireEvent.click(fourthStar)
+    298|     
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/components/__tests__/ReviewsList.interactions.test.tsx > ReviewsList Interaction Tests > does not save if rating or text is empty
+Error: [2mexpect([22m[31melement[39m[2m).toBeDisabled()[22m
+
+Received element is not disabled:
+  [31m<span
+  class="inline-flex items-center gap-2"
+/>[39m
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"space-y-6"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"rounded-md border p-4 bg-background/50 space-y-2"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center justify-between gap-4"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"text-sm font-medium"[39m
+            [36m>[39m
+              [0mTest User[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex items-center gap-2"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center gap-1"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"flex items-center"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-3"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex items-center gap-1"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"text-lg text-yellow-500"[39m
+                [33mtype[39m=[32m"button"[39m
+              [36m>[39m
+                [0m★[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<textarea[39m
+              [33mclass[39m=[32m"w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"[39m
+              [33mrows[39m=[32m"4"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex justify-end gap-2"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 h-8 px-3"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"inline-flex items-center gap-2"[39m
+                [36m>[39m
+                  [0mCancel[0m
+                [36m</span>[39m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] bg-sky-600 text-white hover:bg-sky-500 h-8 px-3"[39m
+                [33mdisabled[39m=[32m""[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"inline-flex items-center gap-2"[39m
+                [36m>[39m
+                  [0mSave[0m
+                [36m</span>[39m
+              [36m</button>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"text-[10px] uppercase tracking-wide text-muted-foreground"[39m
+          [36m>[39m
+            [0m1/1/2023[0m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"rounded-md border p-4 bg-background/50 space-y-2"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center justify-between gap-4"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"text-sm font-medium"[39m
+            [36m>[39m
+              [0mOther User[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex items-center gap-2"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center gap-1"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"flex items-center"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-yellow-500"[39m
+                  [36m>[39m
+                    [0m★[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-muted-foreground"[39m
+                  [36m>[39m
+                    [0m☆[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"text-[12px] text-muted-foreground"[39m
+                  [36m>[39m
+                    [0m☆[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-sm leading-relaxed whitespace-pre-wrap break-words"[39m
+          [36m>[39m
+            [0mDecent read[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"text-[10px] uppercase tracking-wide text-muted-foreground"[39m
+          [36m>[39m
+            [0m1/2/2023[0m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+ ❯ src/components/__tests__/ReviewsList.interactions.test.tsx:218:26
+    216|       
+    217|       const saveButton = screen.getByText('Save')
+    218|       expect(saveButton).toBeDisabled()
+       |                          ^
+    219|     })
+    220|   })
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed | 44 passed (46)
+      Tests  3 failed | 278 passed (281)
+   Start at  10:14:41
+   Duration  8.72s (transform 1.20s, setup 7.97s, collect 8.76s, tests 8.00s, environment 33.48s, prepare 4.36s)
+
