@@ -1,86 +1,136 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    toast.success('Successfully logged out!', {
+      icon: '👋',
+      style: {
+        borderRadius: '24px',
+        background: '#f8fafc',
+        color: '#334155',
+        border: '1px solid #e2e8f0'
+      }
+    });
+    navigate('/', { replace: true });
+  };
 
   return (
-    <nav aria-label="Main navigation" className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/70 shadow-sm">
-      <div className="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-10 h-16 flex items-center justify-between gap-8">
-  <div className="flex items-center gap-6 min-w-0 py-1">
-          <Link
-            to="/"
-            className="relative font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-indigo-500 to-fuchsia-500 text-2xl tracking-tight select-none hover:scale-[1.02] active:scale-[0.99] transition-transform"
-            aria-label="BookVerse Home"
-          >
-            BookVerse
-          </Link>
-          <span className="hidden md:inline text-[11px] uppercase tracking-widest font-medium bg-gradient-to-r from-slate-500 to-slate-400 dark:from-slate-400 dark:to-slate-500 bg-clip-text text-transparent">
-            Discover · Curate · Review
-          </span>
-        </div>
-  <div className="flex items-center py-1 overflow-x-auto no-scrollbar">
-          <ul className="flex items-center font-medium whitespace-nowrap list-none p-0 m-0">
-            <li className="mr-10 sm:mr-14 lg:mr-20 xl:mr-24"><NavLinkItem to="/" label="Home" /></li>
-            <li className="mr-10 sm:mr-14 lg:mr-20 xl:mr-24"><NavLinkItem to="/search" label="Search" /></li>
+    <nav className="sticky top-0 z-50 glass-card border-b border-white/20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
+                </svg>
+              </div>
+              <div className="hidden sm:block">
+                <h1 className="headline-small bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent font-bold">
+                  BookVerse
+                </h1>
+                <p className="body-small text-gray-500 -mt-1">Discover Amazing Books</p>
+              </div>
+            </Link>
+          </div>
+
+          <div className="hidden md:flex items-center gap-1">
+            <NavItem to="/" label="Home" currentPath={location.pathname} />
+            <NavItem to="/books" label="Books" currentPath={location.pathname} />
+            {user && <NavItem to="/profile" label="Profile" currentPath={location.pathname} />}
+          </div>
+
+          <div className="flex items-center gap-3">
             {user ? (
-              <>
-                <li className="mr-10 sm:mr-14 lg:mr-20 xl:mr-24"><NavLinkItem to="/profile" label="Profile" /></li>
-                <li>
-                  <button
-                    onClick={() => {
-                      logout();
-                      toast.success('Logged out');
-                      navigate('/', { replace: true });
-                    }}
-                    aria-label="Logout"
-                    className="group inline-flex items-center gap-1.5 bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400/60 text-white text-xs sm:text-sm font-semibold px-6 py-2.5 rounded-md shadow-sm transition-all active:scale-[0.97]"
-                  >
-                    <span className="opacity-90 group-hover:opacity-100">Logout</span>
-                  </button>
-                </li>
-              </>
+              <div className="flex items-center gap-3">
+                <div className="hidden sm:flex flex-col items-end">
+                  <span className="title-small text-gray-700">{user.name}</span>
+                  <span className="body-small text-gray-500">{user.email}</span>
+                </div>
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-semibold">
+                  {user.name?.charAt(0).toUpperCase()}
+                </div>
+                <button onClick={handleLogout} className="btn-text text-red-600 hover:bg-red-50">
+                  Logout
+                </button>
+              </div>
             ) : (
-              <>
-                <li className="mr-10 sm:mr-14 lg:mr-20 xl:mr-24"><NavLinkItem to="/login" label="Login" /></li>
-                <li>
-                  <Link
-                    to="/signup"
-                    className="inline-flex items-center text-xs sm:text-sm font-semibold bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60 text-white px-6 py-2.5 rounded-md shadow-sm transition-all active:scale-[0.97]"
-                    aria-label="Create account"
-                  >
-                    Sign Up
-                  </Link>
-                </li>
-              </>
+              <div className="flex items-center gap-2">
+                <Link to="/login" className="btn-text">Login</Link>
+                <Link to="/signup" className="btn-filled">Sign Up</Link>
+              </div>
             )}
-          </ul>
+
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden btn-text p-2"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </div>
+
+        {isMenuOpen && (
+          <div className="md:hidden py-4 space-y-2 border-t border-white/20">
+            <MobileNavItem to="/" label="Home" onClick={() => setIsMenuOpen(false)} />
+            <MobileNavItem to="/books" label="Books" onClick={() => setIsMenuOpen(false)} />
+            {user && <MobileNavItem to="/profile" label="Profile" onClick={() => setIsMenuOpen(false)} />}
+          </div>
+        )}
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+interface NavItemProps {
+  to: string;
+  label: string;
+  currentPath: string;
+}
 
-// Reusable nav link component with active + focus styles
-import { NavLink } from 'react-router-dom';
+const NavItem = ({ to, label, currentPath }: NavItemProps) => {
+  const isActive = currentPath === to || (to !== '/' && currentPath.startsWith(to));
+  
+  return (
+    <Link
+      to={to}
+      className={`px-4 py-2 rounded-full title-small transition-all duration-200 ${
+        isActive 
+          ? 'bg-purple-100 text-purple-700 font-medium' 
+          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+      }`}
+    >
+      {label}
+    </Link>
+  );
+};
 
-interface NavLinkItemProps { to: string; label: string; }
-const NavLinkItem = ({ to, label }: NavLinkItemProps) => (
-  <NavLink
+interface MobileNavItemProps {
+  to: string;
+  label: string;
+  onClick: () => void;
+}
+
+const MobileNavItem = ({ to, label, onClick }: MobileNavItemProps) => (
+  <Link
     to={to}
-    end={to === '/'}
-    aria-label={label}
-    className={({ isActive }) => [
-  'group relative inline-flex items-center justify-center rounded-md px-4 sm:px-5 py-2 text-xs sm:text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60 flex-shrink-0',
-      isActive
-        ? 'text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-900/30 shadow-inner'
-        : 'text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100/70 dark:hover:bg-slate-800/60'
-    ].join(' ')}
+    onClick={onClick}
+    className="block px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-xl transition-colors duration-200"
   >
-    <span className="relative flex items-center px-0.5">{label}</span>
-  </NavLink>
+    {label}
+  </Link>
 );
+
+export default Navbar;

@@ -12,7 +12,9 @@ export interface Review {
   userId: string;
   rating: number; // 1-5
   title?: string;
-  content: string;
+  text?: string;    // Backend returns 'text'
+  content?: string; // Some components expect 'content'
+  comment?: string; // Some components expect 'comment'
   createdAt: string;
   updatedAt?: string;
   user?: User; // expanded

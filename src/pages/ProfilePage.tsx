@@ -1,183 +1,381 @@
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useEffect, useState } from 'react';
-import {
-  fetchUserFavorites,
-  fetchUserReviews,
-  fetchHybridRecommendations,
-  fetchTopRatedRecommendations,
-  fetchLLMRecommendations,
-} from '../services/api';
-import type { Book, Review } from '../services/api';
+import api from '@/services/api';
 
-const ProfilePage = () => {
+interface Book {
+  id: string;
+  title: string;
+  author: string;
+  coverUrl?: string;
+  coverImageURL?: string;
+  avgRating?: number;
+  averageRating?: number;
+  reviewCount?: number;
+  genres?: string[];
+}
+
+interface Review {
+  id: string;
+  rating: number;
+  text?: string;    // Backend returns 'text'
+  comment?: string; // Frontend compatibility
+  bookId: string;
+  bookTitle?: string;
+  createdAt: string;
+}
+
+const ProfilePage: React.FC = () => {
   const { user, logout } = useAuth();
-
-  if (!user) {
-    return <div className="min-h-screen flex items-center justify-center">You are not logged in.</div>;
-  }
-
-  const [favorites, setFavorites] = useState<Book[] | null>(null);
-  const [reviews, setReviews] = useState<Review[] | null>(null);
-  const [recs, setRecs] = useState<Book[] | null>(null);
+  const [activeTab, setActiveTab] = useState<'favorites' | 'reviews' | 'stats'>('favorites');
+  const [favorites, setFavorites] = useState<Book[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState<'favorites' | 'reviews' | 'recs'>('favorites');
-  const [recMode, setRecMode] = useState<'hybrid' | 'top' | 'llm'>('hybrid');
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      setLoading(true);
-      setError(null);
-      try {
-        if (tab === 'favorites' && favorites === null) {
-          const data = await fetchUserFavorites();
-          if (!cancelled) setFavorites(data);
-        } else if (tab === 'reviews' && reviews === null) {
-          const data = await fetchUserReviews();
-          if (!cancelled) setReviews(data);
-        } else if (tab === 'recs') {
-          let data: Book[] = [];
-            if (recMode === 'hybrid') data = await fetchHybridRecommendations();
-            else if (recMode === 'top') data = await fetchTopRatedRecommendations();
-            else if (recMode === 'llm') {
-              try { data = await fetchLLMRecommendations(); }
-              catch (e: any) { setError(e?.response?.data?.error || 'LLM recs unavailable'); }
-            }
-          if (!cancelled) setRecs(data);
-        }
-      } catch (e: any) {
-        if (!cancelled) setError(e?.response?.data?.error || 'Failed to load data');
-      } finally {
-        if (!cancelled) setLoading(false);
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center p-4">
+        <div className="glass-card p-12 text-center max-w-md">
+          <div className="text-8xl mb-6">🔒</div>
+          <h2 className="text-2xl font-bold text-on-surface mb-4">Access Restricted</h2>
+          <p className="text-on-surface-variant mb-8 leading-relaxed">
+            You need to be logged in to view your profile and manage your book collection.
+          </p>
+          <Link to="/login" className="btn-filled">
+            Sign In
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const loadUserData = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Load favorites
+      if (activeTab === 'favorites') {
+        const favRes = await api.get('/profile/favorites');
+        setFavorites(Array.isArray(favRes.data) ? favRes.data : []);
       }
+      
+      // Load reviews
+      if (activeTab === 'reviews') {
+        const reviewRes = await api.get('/profile/reviews');
+        setReviews(Array.isArray(reviewRes.data) ? reviewRes.data : []);
+      }
+    } catch (err: any) {
+      setError(err?.response?.data?.message || 'Failed to load profile data');
+    } finally {
+      setLoading(false);
     }
-    load();
-    return () => { cancelled = true; };
-  }, [tab, recMode]);
+  };
 
-  const tabButton = (key: typeof tab, label: string) => (
-    <button
-      onClick={() => setTab(key)}
-      className={`px-4 py-2 text-sm font-medium rounded-md border transition-colors ${
-        tab === key
-          ? 'bg-sky-600 text-white border-sky-600'
-          : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:bg-sky-50 dark:hover:bg-slate-600'
-      }`}
-    >
-      {label}
-    </button>
-  );
+  useEffect(() => {
+    loadUserData();
+  }, [activeTab]);
 
-  const recModeButton = (mode: typeof recMode, label: string) => (
-    <button
-      onClick={() => { setRecMode(mode); setRecs(null); }}
-      className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${
-        recMode === mode
-          ? 'bg-indigo-600 text-white border-indigo-600'
-          : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:bg-indigo-50 dark:hover:bg-slate-600'
-      }`}
-    >
-      {label}
-    </button>
-  );
+  const renderStars = (rating: number) => {
+    return (
+      <div className="flex items-center gap-1">
+        {[1, 2, 3, 4, 5].map(star => (
+          <span
+            key={star}
+            className={`text-lg ${
+              star <= rating ? 'text-amber-400' : 'text-surface-variant'
+            }`}
+          >
+            ★
+          </span>
+        ))}
+      </div>
+    );
+  };
+
+  const getUserStats = () => {
+    const totalReviews = reviews.length;
+    const averageRating = totalReviews > 0 
+      ? reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews 
+      : 0;
+    const totalFavorites = favorites.length;
+
+    return { totalReviews, averageRating, totalFavorites };
+  };
+
+  const stats = getUserStats();
 
   return (
-    <main className="max-w-5xl mx-auto py-10 px-4">
-      <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-sky-600 via-indigo-600 to-fuchsia-600 text-transparent bg-clip-text">Profile</h1>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Manage your activity, favorites and personalized recommendations.</p>
-        </div>
-        <div className="flex items-center gap-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-5 py-3 shadow-sm">
-          <div>
-            <div className="font-semibold">{user.name}</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">{user.email}</div>
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 p-4 md:p-6 lg:p-8">
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Header Section */}
+        <div className="glass-card p-6 md:p-8">
+          <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+            {/* User Info */}
+            <div className="flex items-center gap-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                {user.name?.[0]?.toUpperCase() || 'U'}
+              </div>
+              <div className="space-y-2">
+                <h1 className="text-3xl md:text-4xl font-bold font-heading bg-gradient-to-r from-primary-600 via-secondary-500 to-primary-700 bg-clip-text text-transparent">
+                  {user.name}
+                </h1>
+                <p className="text-on-surface-variant text-lg">
+                  {user.email}
+                </p>
+                <div className="flex items-center gap-4 text-sm text-on-surface-variant">
+                  <span>📚 {stats.totalFavorites} favorites</span>
+                  <span>✍️ {stats.totalReviews} reviews</span>
+                  <span>⭐ {stats.averageRating.toFixed(1)} avg rating</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <button
+                onClick={logout}
+                className="btn-outlined text-error border-error hover:bg-error hover:text-white"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
-          <button
-            onClick={logout}
-            className="text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white px-3 py-2 rounded-md shadow-sm"
-          >Logout</button>
         </div>
-      </header>
 
-      <div className="flex flex-wrap gap-3 mb-6">
-        {tabButton('favorites', 'Favorites')}
-        {tabButton('reviews', 'My Reviews')}
-        {tabButton('recs', 'Recommendations')}
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="glass-card p-6 text-center">
+            <div className="text-3xl font-bold text-primary-600 mb-2">
+              {stats.totalFavorites}
+            </div>
+            <div className="text-on-surface-variant">Favorite Books</div>
+          </div>
+          <div className="glass-card p-6 text-center">
+            <div className="text-3xl font-bold text-secondary-600 mb-2">
+              {stats.totalReviews}
+            </div>
+            <div className="text-on-surface-variant">Reviews Written</div>
+          </div>
+          <div className="glass-card p-6 text-center">
+            <div className="text-3xl font-bold text-amber-500 mb-2">
+              {stats.averageRating.toFixed(1)}
+            </div>
+            <div className="text-on-surface-variant">Average Rating</div>
+          </div>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="glass-card p-2">
+          <div className="flex gap-2">
+            {[
+              { id: 'favorites', label: 'Favorite Books', icon: '♥️' },
+              { id: 'reviews', label: 'My Reviews', icon: '📝' },
+              { id: 'stats', label: 'Reading Stats', icon: '📊' },
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'bg-primary-500 text-white shadow-lg'
+                    : 'text-on-surface-variant hover:bg-surface hover:text-on-surface'
+                }`}
+              >
+                <span>{tab.icon}</span>
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="glass-card p-6 md:p-8">
+          {error && (
+            <div className="mb-6 p-4 bg-error-container text-error-on-container rounded-lg border border-error">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">⚠️</span>
+                {error}
+              </div>
+            </div>
+          )}
+
+          {loading ? (
+            <div className="space-y-6">
+              <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {[1, 2, 3, 4, 5, 6].map(i => (
+                  <div key={i} className="animate-pulse">
+                    <div className="w-full h-48 bg-surface-variant rounded-lg mb-4"></div>
+                    <div className="h-4 bg-surface-variant rounded w-3/4 mb-2"></div>
+                    <div className="h-3 bg-surface-variant rounded w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Favorites Tab */}
+              {activeTab === 'favorites' && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-on-surface">
+                      Favorite Books ({favorites.length})
+                    </h2>
+                  </div>
+
+                  {favorites.length === 0 ? (
+                    <div className="text-center py-16">
+                      <div className="text-8xl mb-6">💔</div>
+                      <h3 className="text-xl font-semibold text-on-surface mb-2">No favorites yet</h3>
+                      <p className="text-on-surface-variant mb-6">
+                        Start building your collection by marking books as favorites!
+                      </p>
+                      <Link to="/" className="btn-filled">
+                        Browse Books
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                      {favorites.map(book => (
+                        <Link
+                          key={book.id}
+                          to={`/books/${book.id}`}
+                          className="card-elevated p-4 hover:shadow-xl transition-all duration-300 group"
+                        >
+                          <div className="aspect-[2/3] mb-4 overflow-hidden rounded-lg bg-surface-variant">
+                            <img
+                              src={(book.coverUrl || book.coverImageURL) || `https://via.placeholder.com/300x450/e5e7eb/9ca3af?text=${encodeURIComponent(book.title)}`}
+                              alt={book.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = `https://via.placeholder.com/300x450/e5e7eb/9ca3af?text=${encodeURIComponent(book.title)}`;
+                              }}
+                            />
+                          </div>
+                          <h3 className="font-semibold text-on-surface mb-2 line-clamp-2">
+                            {book.title}
+                          </h3>
+                          <p className="text-on-surface-variant text-sm mb-3">
+                            by {book.author}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            {renderStars((book.avgRating || book.averageRating) || 0)}
+                            <span className="text-sm text-on-surface-variant">
+                              {book.reviewCount || 0} reviews
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Reviews Tab */}
+              {activeTab === 'reviews' && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-on-surface">
+                      My Reviews ({reviews.length})
+                    </h2>
+                  </div>
+
+                  {reviews.length === 0 ? (
+                    <div className="text-center py-16">
+                      <div className="text-8xl mb-6">📝</div>
+                      <h3 className="text-xl font-semibold text-on-surface mb-2">No reviews yet</h3>
+                      <p className="text-on-surface-variant mb-6">
+                        Share your thoughts about the books you've read!
+                      </p>
+                      <Link to="/" className="btn-filled">
+                        Find Books to Review
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {reviews.map(review => (
+                        <div key={review.id} className="card-elevated p-6">
+                          <div className="flex items-start gap-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 mb-3">
+                                <h3 className="font-semibold text-on-surface">
+                                  {review.bookTitle || `Book ${review.bookId}`}
+                                </h3>
+                                {renderStars(review.rating)}
+                                <span className="text-sm text-on-surface-variant">
+                                  {new Date(review.createdAt).toLocaleDateString()}
+                                </span>
+                              </div>
+                              <p className="text-on-surface-variant leading-relaxed">
+                                {(review as any).text || (review as any).comment}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Stats Tab */}
+              {activeTab === 'stats' && (
+                <div className="space-y-8">
+                  <h2 className="text-2xl font-bold text-on-surface">Reading Statistics</h2>
+                  
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {/* Reading Progress */}
+                    <div className="card-elevated p-6">
+                      <h3 className="text-lg font-semibold text-on-surface mb-4">Reading Activity</h3>
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center">
+                          <span className="text-on-surface-variant">Books Favorited</span>
+                          <span className="text-xl font-bold text-primary-600">{stats.totalFavorites}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-on-surface-variant">Reviews Written</span>
+                          <span className="text-xl font-bold text-secondary-600">{stats.totalReviews}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-on-surface-variant">Average Rating Given</span>
+                          <span className="text-xl font-bold text-amber-500">{stats.averageRating.toFixed(1)}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Recent Activity */}
+                    <div className="card-elevated p-6">
+                      <h3 className="text-lg font-semibold text-on-surface mb-4">Recent Activity</h3>
+                      <div className="space-y-3">
+                        {reviews.length > 0 ? (
+                          reviews.slice(0, 3).map(review => (
+                            <div key={review.id} className="flex items-center gap-3 p-2 rounded-lg bg-surface">
+                              <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
+                              <div className="flex-1">
+                                <div className="text-sm text-on-surface">
+                                  Reviewed "{review.bookTitle || 'a book'}"
+                                </div>
+                                <div className="text-xs text-on-surface-variant">
+                                  {new Date(review.createdAt).toLocaleDateString()}
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-on-surface-variant text-sm">No recent activity</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
-
-      {tab === 'recs' && (
-        <div className="flex flex-wrap gap-2 mb-6 items-center">
-          <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mr-2">Mode:</span>
-          {recModeButton('hybrid', 'Hybrid')}
-          {recModeButton('top', 'Top Rated')}
-          {recModeButton('llm', 'LLM')}
-        </div>
-      )}
-
-      {error && (
-        <div className="mb-4 p-3 rounded-md bg-rose-50 border border-rose-200 text-rose-700 text-sm dark:bg-rose-900/30 dark:border-rose-800 dark:text-rose-200">{error}</div>
-      )}
-
-      {loading && (
-        <div className="py-10 text-center text-sm text-slate-500">Loading...</div>
-      )}
-
-      {!loading && tab === 'favorites' && (
-        <section>
-          {favorites && favorites.length === 0 && <p className="text-sm text-slate-500">No favorites yet.</p>}
-          <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {favorites?.map(b => (
-              <li key={b.id} className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
-                <h3 className="font-semibold text-sm mb-1 line-clamp-1">{b.title}</h3>
-                <p className="text-xs text-slate-500 mb-2 line-clamp-1">{b.author}</p>
-                <div className="flex items-center gap-2 text-[10px] text-slate-500">
-                  <span>Rating: {b.avgRating?.toFixed(1) ?? '0.0'}</span>
-                  <span>Reviews: {b.reviewCount ?? 0}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {!loading && tab === 'reviews' && (
-        <section>
-          {reviews && reviews.length === 0 && <p className="text-sm text-slate-500">No reviews written.</p>}
-          <ul className="space-y-4">
-            {reviews?.map(r => (
-              <li key={r.id} className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
-                <div className="flex items-center justify-between mb-1">
-                  <h3 className="font-semibold text-sm">{r.book.title}</h3>
-                  <span className="text-xs font-medium text-amber-600">{r.rating}/5</span>
-                </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mb-2 whitespace-pre-line">{r.text}</p>
-                <div className="text-[10px] text-slate-400">{new Date(r.createdAt).toLocaleDateString()}</div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {!loading && tab === 'recs' && (
-        <section>
-          {recs && recs.length === 0 && <p className="text-sm text-slate-500">No recommendations yet.</p>}
-          <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {recs?.map(b => (
-              <li key={b.id} className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
-                <h3 className="font-semibold text-sm mb-1 line-clamp-1">{b.title}</h3>
-                <p className="text-xs text-slate-500 mb-2 line-clamp-1">{b.author}</p>
-                <div className="flex items-center gap-2 text-[10px] text-slate-500">
-                  <span>{b.avgRating?.toFixed(1) ?? '0.0'}★</span>
-                  <span>{b.reviewCount ?? 0} reviews</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-    </main>
+    </div>
   );
 };
 

@@ -64,13 +64,13 @@ export interface Review {
 }
 
 export async function fetchUserFavorites(): Promise<Book[]> {
-  const { data } = await api.get<{ favorites: Book[] }>('/profile/favorites');
-  return data.favorites || [];
+  const { data } = await api.get<Book[]>('/profile/favorites');
+  return Array.isArray(data) ? data : [];
 }
 
 export async function fetchUserReviews(): Promise<Review[]> {
-  const { data } = await api.get<{ reviews: Review[] }>('/profile/reviews');
-  return data.reviews || [];
+  const { data } = await api.get<Review[]>('/profile/reviews');
+  return Array.isArray(data) ? data : [];
 }
 
 export async function toggleFavorite(bookId: number): Promise<{ message: string }> {

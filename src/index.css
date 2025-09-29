@@ -1,23 +1,306 @@
-:root {
-  --bg: #f8fafc;
-  --surface: #ffffff;
-  --muted: #64748b;
-  --text: #0f172a;
-  --accent: #0ea5e9; /* sky-500 fallback */
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: var(--accent);
-  text-decoration: none;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* Material Design 3 Color System */
+    --primary: 103 80 164;
+    --primary-container: 234 221 255;
+    --on-primary: 255 255 255;
+    --on-primary-container: 33 0 94;
+    
+    --secondary: 98 91 113;
+    --secondary-container: 231 224 249;
+    --on-secondary: 255 255 255;
+    --on-secondary-container: 29 25 43;
+    
+    --tertiary: 125 82 96;
+    --tertiary-container: 255 216 228;
+    --on-tertiary: 255 255 255;
+    --on-tertiary-container: 55 11 30;
+    
+    --surface: 255 251 254;
+    --surface-dim: 222 216 225;
+    --surface-bright: 255 251 254;
+    --surface-container-lowest: 255 255 255;
+    --surface-container-low: 247 242 250;
+    --surface-container: 243 237 247;
+    --surface-container-high: 236 230 240;
+    --surface-container-highest: 230 224 233;
+    
+    --on-surface: 29 27 32;
+    --on-surface-variant: 73 69 79;
+    --outline: 121 116 126;
+    --outline-variant: 196 199 197;
+    
+    --error: 186 26 26;
+    --error-container: 255 218 214;
+    --on-error: 255 255 255;
+    --on-error-container: 65 0 2;
+    
+    --shadow: 0 0 0;
+    --scrim: 0 0 0;
+    
+    /* Elevation */
+    --elevation-1: 0 1px 2px 0 rgb(0 0 0 / 0.3), 0 1px 3px 1px rgb(0 0 0 / 0.15);
+    --elevation-2: 0 1px 2px 0 rgb(0 0 0 / 0.3), 0 2px 6px 2px rgb(0 0 0 / 0.15);
+    --elevation-3: 0 4px 8px 3px rgb(0 0 0 / 0.15), 0 1px 3px 0 rgb(0 0 0 / 0.3);
+    --elevation-4: 0 6px 10px 4px rgb(0 0 0 / 0.15), 0 2px 3px 0 rgb(0 0 0 / 0.3);
+    --elevation-5: 0 8px 12px 6px rgb(0 0 0 / 0.15), 0 4px 4px 0 rgb(0 0 0 / 0.3);
+    
+    /* Glass effect */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+  
+  [data-theme="dark"] {
+    --primary: 208 188 255;
+    --primary-container: 55 0 112;
+    --on-primary: 55 0 112;
+    --on-primary-container: 234 221 255;
+    
+    --secondary: 203 196 221;
+    --secondary-container: 51 47 65;
+    --on-secondary: 51 47 65;
+    --on-secondary-container: 231 224 249;
+    
+    --surface: 16 14 19;
+    --surface-dim: 16 14 19;
+    --surface-bright: 54 52 59;
+    --surface-container-lowest: 11 9 14;
+    --surface-container-low: 24 22 27;
+    --surface-container: 28 26 31;
+    --surface-container-high: 38 36 42;
+    --surface-container-highest: 49 47 53;
+    
+    --on-surface: 230 224 233;
+    --on-surface-variant: 196 199 197;
+    --outline: 142 145 153;
+    --outline-variant: 68 71 78;
+    
+    --glass-bg: rgba(16, 14, 19, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+  
+  * {
+    @apply border-outline;
+  }
+  
+  body {
+    @apply bg-surface text-on-surface;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    background: linear-gradient(135deg, rgb(var(--surface)) 0%, rgb(var(--surface-container-low)) 100%);
+    min-height: 100vh;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+}
+
+@layer components {
+  /* Material Design Button Components */
+  .btn-filled {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-full transition-all duration-200;
+    background: rgb(var(--primary));
+    color: rgb(var(--on-primary));
+    box-shadow: var(--elevation-1);
+    
+    &:hover {
+      @apply brightness-110 scale-[1.02];
+      box-shadow: var(--elevation-2);
+    }
+    
+    &:active {
+      @apply scale-[0.98];
+      box-shadow: var(--elevation-1);
+    }
+    
+    &:disabled {
+      @apply opacity-50 cursor-not-allowed;
+      background: rgb(var(--on-surface) / 0.12);
+      color: rgb(var(--on-surface) / 0.38);
+    }
+  }
+  
+  .btn-outlined {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-full border transition-all duration-200;
+    border-color: rgb(var(--outline));
+    color: rgb(var(--primary));
+    
+    &:hover {
+      background: rgb(var(--primary) / 0.08);
+      border-color: rgb(var(--primary));
+      @apply scale-[1.02];
+    }
+    
+    &:active {
+      @apply scale-[0.98];
+      background: rgb(var(--primary) / 0.12);
+    }
+  }
+  
+  .btn-text {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-all duration-200;
+    color: rgb(var(--primary));
+    
+    &:hover {
+      background: rgb(var(--primary) / 0.08);
+      @apply scale-[1.02];
+    }
+    
+    &:active {
+      @apply scale-[0.98];
+      background: rgb(var(--primary) / 0.12);
+    }
+  }
+  
+  /* Card Components */
+  .card-elevated {
+    @apply rounded-3xl transition-all duration-300;
+    background: rgb(var(--surface-container-low));
+    box-shadow: var(--elevation-1);
+    
+    &:hover {
+      box-shadow: var(--elevation-3);
+      @apply scale-[1.02];
+    }
+  }
+  
+  .card-filled {
+    @apply rounded-3xl;
+    background: rgb(var(--surface-container-highest));
+  }
+  
+  .card-outlined {
+    @apply rounded-3xl border;
+    background: rgb(var(--surface));
+    border-color: rgb(var(--outline-variant));
+  }
+  
+  /* Glass morphism effect */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    @apply rounded-3xl;
+  }
+  
+  /* Input Components */
+  .input-outlined {
+    @apply w-full px-4 py-3 rounded-2xl border transition-all duration-200;
+    background: rgb(var(--surface-container-highest));
+    border-color: rgb(var(--outline));
+    color: rgb(var(--on-surface));
+    
+    &:focus {
+      @apply outline-none ring-0;
+      border-color: rgb(var(--primary));
+      box-shadow: 0 0 0 2px rgb(var(--primary) / 0.12);
+    }
+    
+    &::placeholder {
+      color: rgb(var(--on-surface-variant));
+    }
+  }
+  
+  /* Navigation */
+  .nav-rail {
+    @apply flex flex-col h-full w-20 p-2 space-y-2;
+    background: rgb(var(--surface-container));
+  }
+  
+  .nav-item {
+    @apply flex flex-col items-center p-3 rounded-2xl cursor-pointer transition-all duration-200;
+    
+    &:hover {
+      background: rgb(var(--secondary-container));
+    }
+    
+    &.active {
+      background: rgb(var(--secondary-container));
+      color: rgb(var(--on-secondary-container));
+    }
+  }
+  
+  /* Typography */
+  .display-large {
+    @apply text-6xl font-light tracking-tight;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .display-medium {
+    @apply text-5xl font-light tracking-tight;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .display-small {
+    @apply text-4xl font-normal;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .headline-large {
+    @apply text-3xl font-normal;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .headline-medium {
+    @apply text-2xl font-normal;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .headline-small {
+    @apply text-xl font-normal;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .title-large {
+    @apply text-lg font-medium;
+  }
+  
+  .title-medium {
+    @apply text-base font-medium;
+  }
+  
+  .title-small {
+    @apply text-sm font-medium;
+  }
+  
+  .label-large {
+    @apply text-sm font-medium;
+  }
+  
+  .label-medium {
+    @apply text-xs font-medium;
+  }
+  
+  .body-large {
+    @apply text-base font-normal leading-relaxed;
+  }
+  
+  .body-medium {
+    @apply text-sm font-normal leading-relaxed;
+  }
+  
+  .body-small {
+    @apply text-xs font-normal leading-relaxed;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
 a:hover {
   color: #535bf2;
 }

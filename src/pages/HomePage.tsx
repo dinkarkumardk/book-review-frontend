@@ -95,6 +95,7 @@ const HomePage = () => {
                   author={book.author}
                   coverImage={cover}
                   averageRating={book.avgRating ?? 0}
+                  reviewCount={book.reviewCount ?? 0}
                   initialFavorited={favoriteIds.has(Number(book.id))}
                 />
               </Link>
