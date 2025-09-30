@@ -1,13 +1,19 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, token } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Force re-render when auth state changes
+  useEffect(() => {
+    // This effect will run whenever user or token changes
+    console.log('Navbar: Auth state changed', { user: user?.name, hasToken: !!token });
+  }, [user, token]);
 
   const handleLogout = () => {
     logout();

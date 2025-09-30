@@ -33,8 +33,13 @@ const LoginPage: React.FC = () => {
 
     try {
       const res = await api.post('/auth/login', formData);
-      login(res.data.token, res.data.user);
+      
+      // Ensure login state is fully updated before navigation
+      await login(res.data.token, res.data.user);
+      
+      // Navigate after login state is confirmed
       navigate('/', { replace: true });
+      
     } catch (err: any) {
       setError(err?.response?.data?.message || 'Invalid email or password');
     } finally {

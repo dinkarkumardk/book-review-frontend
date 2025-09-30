@@ -1,9 +1,21 @@
 import axios from 'axios';
 
+// Determine base API URL:
+// Priority: explicitly provided VITE_API_BASE_URL (can be absolute or /api) -> fallback to '/api' when running under CDN/domain -> dev localhost
+function resolveBaseURL() {
+  const envUrl = (import.meta as any)?.env?.VITE_API_BASE_URL || (window as any)?.VITE_API_BASE_URL || '';
+  let candidate = envUrl.trim();
+  if (!candidate && typeof window !== 'undefined') {
+    candidate = '/api';
+  }
+  if (!candidate) {
+    candidate = 'http://localhost:3001/api';
+  }
+  return candidate.replace(/\/$/, '');
+}
+
 const api = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' 
-    ? 'http://52.4.75.180/api'  // Production backend
-    : 'http://localhost:3001/api',  // Development backend
+  baseURL: resolveBaseURL(),
   withCredentials: true,
 });
 
@@ -15,7 +27,9 @@ api.interceptors.request.use((config) => {
       config.headers = config.headers || {};
       (config.headers as any)['Authorization'] = `Bearer ${token}`;
     }
-  } catch {}
+  } catch (e) {
+    console.warn('Failed to get auth token from localStorage:', e);
+  }
   return config;
 });
 

@@ -14,7 +14,7 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   initializing: boolean;
-  login: (token: string, user: User) => void;
+  login: (token: string, user: User) => Promise<void>;
   logout: () => void;
   refreshUser: () => Promise<void>;
 }
@@ -74,11 +74,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     bootstrap();
   }, []);
 
-  const login = (jwtToken: string, userDetails: User) => {
-    setToken(jwtToken);
-    setUser(userDetails);
+  const login = async (jwtToken: string, userDetails: User): Promise<void> => {
+    // Set localStorage first to ensure API interceptor has immediate access
     localStorage.setItem(TOKEN_KEY, jwtToken);
     localStorage.setItem(USER_KEY, JSON.stringify(userDetails));
+    
+    // Update state synchronously to trigger immediate re-renders
+    setToken(jwtToken);
+    setUser(userDetails);
+    
+    // Return a resolved promise to ensure async consistency
+    return Promise.resolve();
   };
 
   const logout = async () => {
