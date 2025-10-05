@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '@/services/api';
@@ -26,12 +26,75 @@ interface Review {
 }
 
 const ProfilePage: React.FC = () => {
-  const { user, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState<'favorites' | 'reviews' | 'stats'>('favorites');
+  const { user, logout, initializing, refreshUser, token } = useAuth();
+  const [activeTab, setActiveTab] = useState<'favorites' | 'reviews' | 'stats' | 'recs'>('favorites');
   const [favorites, setFavorites] = useState<Book[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Recommendations state
+  const [recs, setRecs] = useState<Book[]>([]);
+  const [recMode, setRecMode] = useState<'hybrid' | 'top' | 'llm'>('hybrid');
+  const [recLoading, setRecLoading] = useState(false);
+  const [recError, setRecError] = useState<string | null>(null);
+  const [recPage, setRecPage] = useState(1);
+  const [recPagination, setRecPagination] = useState<{ page: number; limit: number; total: number; totalPages: number } | null>(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const recCache = React.useRef<Record<string, Book[]>>({});
+  const hasRefreshedUser = useRef(false);
+  const lastEffectKey = useRef<string | null>(null);
+
+  useEffect(() => {
+    lastEffectKey.current = null;
+  }, [user?.id]);
+
+  const mapFavoriteEntry = useCallback((entry: any): Book => {
+    const candidate = entry?.book ?? entry ?? {};
+    const avgSource = candidate?.avgRating ?? candidate?.averageRating;
+    const avgNumeric = typeof avgSource === 'number' ? avgSource : Number(avgSource ?? 0) || 0;
+    const reviewCountSource = candidate?.reviewCount;
+
+    return {
+      id: String(candidate?.id ?? ''),
+      title: candidate?.title ?? 'Untitled',
+      author: candidate?.author ?? 'Unknown',
+      coverUrl: candidate?.coverUrl ?? candidate?.coverImageURL,
+      coverImageURL: candidate?.coverImageURL ?? candidate?.coverUrl,
+      avgRating: avgNumeric,
+      averageRating: avgNumeric,
+      reviewCount: typeof reviewCountSource === 'number' ? reviewCountSource : Number(reviewCountSource ?? 0) || 0,
+      genres: Array.isArray(candidate?.genres) ? candidate.genres : undefined,
+    };
+  }, []);
+
+  const mapReviewEntry = useCallback((entry: any): Review => {
+    const ratingSource = entry?.rating ?? entry?.score ?? entry?.value;
+    const rating = typeof ratingSource === 'number' ? ratingSource : Number(ratingSource ?? 0) || 0;
+    const book = entry?.book ?? {};
+    const createdAtValue = entry?.createdAt ? new Date(entry.createdAt).toISOString() : new Date().toISOString();
+
+    return {
+      id: String(entry?.id ?? entry?._id ?? ''),
+      rating,
+      text: entry?.text ?? entry?.comment ?? undefined,
+      comment: entry?.comment ?? entry?.text ?? undefined,
+      bookId: String(book?.id ?? entry?.bookId ?? ''),
+      bookTitle: book?.title ?? entry?.bookTitle ?? undefined,
+      createdAt: createdAtValue,
+    };
+  }, []);
+
+  const hydrateFromUserData = useCallback((payload: any) => {
+    if (!payload) return;
+
+    if (Array.isArray(payload.favorites)) {
+      setFavorites(payload.favorites.map(mapFavoriteEntry));
+    }
+
+    if (Array.isArray(payload.reviews)) {
+      setReviews(payload.reviews.map(mapReviewEntry));
+    }
+  }, [mapFavoriteEntry, mapReviewEntry]);
 
   if (!user) {
     return (
@@ -50,32 +113,134 @@ const ProfilePage: React.FC = () => {
     );
   }
 
-  const loadUserData = async () => {
+  const loadUserData = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
-      // Load favorites
-      if (activeTab === 'favorites') {
-        const favRes = await api.get('/profile/favorites');
-        setFavorites(Array.isArray(favRes.data) ? favRes.data : []);
-      }
-      
-      // Load reviews
-      if (activeTab === 'reviews') {
-        const reviewRes = await api.get('/profile/reviews');
-        setReviews(Array.isArray(reviewRes.data) ? reviewRes.data : []);
-      }
+      const [favRes, reviewRes] = await Promise.all([
+        api.get('/profile/favorites'),
+        api.get('/profile/reviews'),
+      ]);
+
+      const favoriteData = Array.isArray(favRes.data)
+        ? favRes.data.map(mapFavoriteEntry)
+        : [];
+
+      const reviewData = Array.isArray(reviewRes.data)
+        ? reviewRes.data.map(mapReviewEntry)
+        : [];
+
+      setFavorites(favoriteData);
+      setReviews(reviewData);
     } catch (err: any) {
       setError(err?.response?.data?.message || 'Failed to load profile data');
     } finally {
       setLoading(false);
     }
-  };
+  }, [mapFavoriteEntry, mapReviewEntry]);
 
   useEffect(() => {
-    loadUserData();
-  }, [activeTab]);
+    if (initializing || !token || hasRefreshedUser.current) return;
+
+    hasRefreshedUser.current = true;
+    const result = refreshUser();
+
+    if (result && typeof (result as Promise<any>).then === 'function') {
+      (result as Promise<any>)
+        .then((payload) => {
+          hydrateFromUserData(payload);
+        })
+        .catch(() => {
+          hasRefreshedUser.current = false;
+        });
+    } else {
+      hasRefreshedUser.current = false;
+    }
+  }, [initializing, token, refreshUser, hydrateFromUserData]);
+
+  useEffect(() => {
+    hydrateFromUserData(user);
+  }, [user, hydrateFromUserData]);
+
+  const loadRecommendations = useCallback(async (mode: typeof recMode, page = 1, append = false) => {
+    if (!append) {
+      setRecLoading(true);
+    } else {
+      setLoadingMore(true);
+    }
+    setRecError(null);
+    try {
+      // Serve from cache if present and page 1
+      if (page === 1 && recCache.current[mode]) {
+        setRecs(recCache.current[mode]);
+        setRecLoading(false);
+        setLoadingMore(false);
+        return;
+      }
+      
+      let response: any;
+      // Dynamically import to avoid circular issues / tree shaking concerns
+      const apiMod = await import('@/services/api');
+      if (mode === 'hybrid') {
+        response = await apiMod.fetchHybridRecommendations(page, 10);
+      } else if (mode === 'top') {
+        response = await apiMod.fetchTopRatedRecommendations(page, 10);
+      } else {
+        try {
+          response = await apiMod.fetchLLMRecommendations(page, 10);
+        } catch (e: any) {
+          const msg = e?.response?.data?.error || e?.message || 'Failed to fetch LLM recommendations';
+          setRecError(msg);
+          response = { recommendations: [], pagination: null };
+        }
+      }
+      
+      const newBooks = response.recommendations || [];
+      
+      if (append) {
+        setRecs(prev => [...prev, ...newBooks]);
+      } else {
+        setRecs(newBooks);
+        if (page === 1) {
+          recCache.current[mode] = newBooks;
+        }
+      }
+      
+      setRecPagination(response.pagination || null);
+      setRecPage(page);
+    } catch (e: any) {
+      setRecError(e?.response?.data?.message || e?.message || 'Failed to load recommendations');
+    } finally {
+      setRecLoading(false);
+      setLoadingMore(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (initializing || !user) {
+      return;
+    }
+
+    const effectKey = `${activeTab}:${recMode}`;
+    if (lastEffectKey.current === effectKey) {
+      return;
+    }
+    lastEffectKey.current = effectKey;
+
+    if (activeTab === 'recs') {
+      setRecPage(1); // Reset to page 1
+      loadRecommendations(recMode, 1, false);
+    } else {
+      loadUserData();
+    }
+  }, [activeTab, initializing, user, recMode, loadRecommendations, loadUserData]);
+  
+  const handleLoadMore = () => {
+    if (recPagination && recPage < recPagination.totalPages) {
+      loadRecommendations(recMode, recPage + 1, true);
+    }
+  };
 
   const renderStars = (rating: number) => {
     return (
@@ -94,17 +259,28 @@ const ProfilePage: React.FC = () => {
     );
   };
 
-  const getUserStats = () => {
-    const totalReviews = reviews.length;
-    const averageRating = totalReviews > 0 
-      ? reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews 
-      : 0;
-    const totalFavorites = favorites.length;
+  const stats = useMemo(() => {
+    const userFavorites = Array.isArray((user as any)?.favorites) ? (user as any).favorites : [];
+    const userReviews = Array.isArray((user as any)?.reviews) ? (user as any).reviews : [];
 
-    return { totalReviews, averageRating, totalFavorites };
-  };
+    const favoritesCount = favorites.length || userFavorites.length;
 
-  const stats = getUserStats();
+    const reviewSource: any[] = reviews.length ? reviews : userReviews;
+    const totalReviews = reviewSource.length;
+    const totalRating = reviewSource.reduce((sum, review) => {
+      const rawRating = (review?.rating ?? (review as any)?.score ?? (review as any)?.value);
+      const numeric = typeof rawRating === 'number' ? rawRating : Number(rawRating) || 0;
+      return sum + numeric;
+    }, 0);
+
+    const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+
+    return {
+      totalReviews,
+      averageRating,
+      totalFavorites: favoritesCount,
+    };
+  }, [favorites, reviews, user]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 p-4 md:p-6 lg:p-8">
@@ -172,6 +348,7 @@ const ProfilePage: React.FC = () => {
             {[
               { id: 'favorites', label: 'Favorite Books', icon: '♥️' },
               { id: 'reviews', label: 'My Reviews', icon: '📝' },
+              { id: 'recs', label: 'Recommendations', icon: '✨' },
               { id: 'stats', label: 'Reading Stats', icon: '📊' },
             ].map(tab => (
               <button
@@ -192,7 +369,7 @@ const ProfilePage: React.FC = () => {
 
         {/* Content Area */}
         <div className="glass-card p-6 md:p-8">
-          {error && (
+          {error && activeTab !== 'recs' && (
             <div className="mb-6 p-4 bg-error-container text-error-on-container rounded-lg border border-error">
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚠️</span>
@@ -200,8 +377,16 @@ const ProfilePage: React.FC = () => {
               </div>
             </div>
           )}
+          {recError && activeTab === 'recs' && (
+            <div className="mb-6 p-4 bg-error-container text-error-on-container rounded-lg border border-error">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">⚠️</span>
+                {recError}
+              </div>
+            </div>
+          )}
 
-          {loading ? (
+          {(loading && activeTab !== 'recs') ? (
             <div className="space-y-6">
               <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {[1, 2, 3, 4, 5, 6].map(i => (
@@ -213,8 +398,137 @@ const ProfilePage: React.FC = () => {
                 ))}
               </div>
             </div>
+          ) : recLoading && activeTab === 'recs' ? (
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 text-on-surface-variant"><span className="animate-spin">⏳</span> Loading recommendations...</div>
+              <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="animate-pulse">
+                    <div className="w-full h-48 bg-surface-variant rounded-lg mb-4"></div>
+                    <div className="h-4 bg-surface-variant rounded w-2/3 mb-2"></div>
+                    <div className="h-3 bg-surface-variant rounded w-1/3"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : (
             <>
+              {/* Recommendations Tab */}
+              {activeTab === 'recs' && (
+                <div className="space-y-8">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    <div>
+                      <h2 className="text-2xl font-bold text-on-surface">Personalized Recommendations</h2>
+                      <p className="text-on-surface-variant mt-1 text-sm">Based on community activity, ratings and heuristic relevance.</p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm text-on-surface-variant font-medium">Mode:</span>
+                      {[
+                        { id: 'hybrid', label: 'Hybrid', desc: 'Blend' },
+                        { id: 'top', label: 'Top Rated', desc: 'Global' },
+                        { id: 'llm', label: 'LLM', desc: 'Semantic' },
+                      ].map(m => (
+                        <button
+                          key={m.id}
+                          onClick={() => setRecMode(m.id as typeof recMode)}
+                          className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
+                            recMode === m.id
+                              ? 'bg-primary-500 text-white border-primary-500 shadow'
+                              : 'bg-surface border-surface-variant text-on-surface-variant hover:border-primary-300'
+                          }`}
+                        >
+                          {m.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {recs.length === 0 && !recLoading && !recError && (
+                    <div className="text-center py-16">
+                      <div className="text-8xl mb-6">🧪</div>
+                      <h3 className="text-xl font-semibold text-on-surface mb-2">No recommendations yet.</h3>
+                      <p className="text-on-surface-variant mb-6 max-w-md mx-auto">
+                        Keep exploring and reviewing books—your personalized suggestions will improve as more data becomes available.
+                      </p>
+                      <Link to="/" className="btn-filled">Browse Catalog</Link>
+                    </div>
+                  )}
+
+                  {recs.length > 0 && (
+                    <>
+                      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        {recs.map(b => (
+                          <Link key={b.id} to={`/books/${b.id}`} className="card-elevated p-5 group hover:shadow-xl transition-all">
+                            <div className="aspect-[2/3] mb-4 overflow-hidden rounded-lg bg-surface-variant">
+                              <img
+                                src={(b as any).coverUrl || (b as any).coverImageURL || `https://via.placeholder.com/300x450/e5e7eb/9ca3af?text=${encodeURIComponent(b.title)}`}
+                                alt={b.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = `https://via.placeholder.com/300x450/e5e7eb/9ca3af?text=${encodeURIComponent(b.title)}`;
+                                }}
+                              />
+                            </div>
+                            <h3 className="font-semibold text-on-surface mb-1 line-clamp-2">{b.title}</h3>
+                            <p className="text-on-surface-variant text-sm mb-2">{(b as any).author}</p>
+                            <div className="flex items-center gap-2 text-xs text-on-surface-variant mb-2">
+                              <span>⭐ {(b as any).avgRating?.toFixed?.(1) || (b as any).averageRating?.toFixed?.(1) || '0.0'}</span>
+                              <span>• {(b as any).reviewCount || 0} reviews</span>
+                            </div>
+                            {(b as any).relevanceScore && (
+                              <div className="flex items-center gap-1 text-xs">
+                                <span className="text-primary-600 font-medium">Relevance:</span>
+                                <div className="flex-1 bg-surface-variant rounded-full h-1.5 overflow-hidden">
+                                  <div 
+                                    className="bg-gradient-to-r from-primary-500 to-secondary-500 h-full rounded-full transition-all"
+                                    style={{ width: `${((b as any).relevanceScore * 100)}%` }}
+                                  />
+                                </div>
+                                <span className="text-on-surface-variant">{((b as any).relevanceScore * 100).toFixed(0)}%</span>
+                              </div>
+                            )}
+                            {recMode === 'llm' && (
+                              <div className="mt-2 text-xs italic text-on-surface-variant/70">AI-powered semantic match</div>
+                            )}
+                          </Link>
+                        ))}
+                      </div>
+                      
+                      {/* Pagination Info & Load More */}
+                      {recPagination && (
+                        <div className="flex flex-col items-center gap-4 mt-8">
+                          <div className="text-sm text-on-surface-variant">
+                            Showing {recs.length} of {recPagination.total} recommendations
+                            {recPagination.totalPages > 1 && ` (Page ${recPage} of ${recPagination.totalPages})`}
+                          </div>
+                          
+                          {recPage < recPagination.totalPages && (
+                            <button
+                              onClick={handleLoadMore}
+                              disabled={loadingMore}
+                              className="btn-filled px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                            >
+                              {loadingMore ? (
+                                <>
+                                  <span className="animate-spin">⏳</span>
+                                  Loading more...
+                                </>
+                              ) : (
+                                <>
+                                  Load More
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                  </svg>
+                                </>
+                              )}
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
               {/* Favorites Tab */}
               {activeTab === 'favorites' && (
                 <div className="space-y-6">

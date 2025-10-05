@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import api, { toggleFavorite } from '@/services/api';
+import api, { toggleFavorite, fetchUserFavorites } from '@/services/api';
+import { invalidateBookCache } from '@/services/bookCatalog';
+import { useAuth } from '@/context/AuthContext';
 
 interface Book {
   id: string;
@@ -13,6 +15,7 @@ interface Book {
   reviewCount?: number;
   genres?: string[];
   description?: string;
+  isFavorite?: boolean;
 }
 
 interface Review {
@@ -36,6 +39,7 @@ const BookDetailPage: React.FC = () => {
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
+  const { user } = useAuth();
 
   const loadBook = async () => {
     if (!id) return;
@@ -44,6 +48,9 @@ const BookDetailPage: React.FC = () => {
       setLoading(true);
       const res = await api.get(`/books/${id}`);
       setBook(res.data);
+      if (typeof res.data?.isFavorite === 'boolean') {
+        setFavorited(res.data.isFavorite);
+      }
       setError('');
     } catch (err) {
       setError('Failed to load book details');
@@ -67,6 +74,16 @@ const BookDetailPage: React.FC = () => {
     }
   };
 
+  const loadFavorites = async () => {
+    if (!user || !book) return;
+    try {
+      const favs = await fetchUserFavorites();
+      setFavorited(favs.some(f => f.id === Number(book.id)));
+    } catch (err) {
+      console.log('Failed to load favorites');
+    }
+  };
+
   const handleToggleFavorite = async () => {
     if (!book || favPending) return;
     
@@ -76,6 +93,7 @@ const BookDetailPage: React.FC = () => {
     
     try {
       await toggleFavorite(Number(book.id));
+      invalidateBookCache();
     } catch {
       setFavorited(!nextFavorited); // Revert on error
     } finally {
@@ -127,6 +145,16 @@ const BookDetailPage: React.FC = () => {
     loadBook();
     loadReviews();
   }, [id]);
+
+  useEffect(() => {
+    if (book && user) {
+      if (typeof book.isFavorite === 'boolean') {
+        setFavorited(book.isFavorite);
+      } else {
+        loadFavorites();
+      }
+    }
+  }, [book, user]);
 
   if (loading) {
     return (
@@ -275,9 +303,6 @@ const BookDetailPage: React.FC = () => {
                   className="btn-filled"
                 >
                   Write a Review
-                </button>
-                <button className="btn-outlined">
-                  Add to Wishlist
                 </button>
               </div>
             </div>

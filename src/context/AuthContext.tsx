@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import api from '@/services/api';
-import toast from 'react-hot-toast';
+import { invalidateBookCache } from '@/services/bookCatalog';
 
 interface User {
   id: string;
@@ -82,29 +82,34 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     // Update state synchronously to trigger immediate re-renders
     setToken(jwtToken);
     setUser(userDetails);
+    invalidateBookCache();
     
     // Return a resolved promise to ensure async consistency
     return Promise.resolve();
   };
 
   const logout = async () => {
-    try { await api.post('/auth/logout').catch(() => {}); } catch {}
+    try {
+      await api.post('/auth/logout').catch(() => {});
+    } catch {}
     setToken(null);
     setUser(null);
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
-    toast.success('Signed out');
+    invalidateBookCache();
   };
 
   const refreshUser = async () => {
-    if (!token) return;
+    if (!token) return null;
     try {
       const res = await api.get('/auth/me');
       setUser(res.data);
       localStorage.setItem(USER_KEY, JSON.stringify(res.data));
+      return res.data;
     } catch (e) {
       // If refresh fails, quietly logout to reset state
       logout();
+      return null;
     }
   };
 

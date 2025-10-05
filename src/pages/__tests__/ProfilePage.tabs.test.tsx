@@ -80,9 +80,21 @@ describe('ProfilePage Tab Navigation Tests', () => {
     // Setup successful API responses by default
     vi.mocked(fetchUserFavorites).mockResolvedValue(mockBooks)
     vi.mocked(fetchUserReviews).mockResolvedValue(mockReviews)
-    vi.mocked(fetchHybridRecommendations).mockResolvedValue(mockBooks)
-    vi.mocked(fetchTopRatedRecommendations).mockResolvedValue(mockBooks)
-    vi.mocked(fetchLLMRecommendations).mockResolvedValue(mockBooks)
+    vi.mocked(fetchHybridRecommendations).mockResolvedValue({
+      recommendations: mockBooks,
+      mode: 'hybrid',
+      pagination: { page: 1, limit: 10, total: mockBooks.length, totalPages: 1 }
+    })
+    vi.mocked(fetchTopRatedRecommendations).mockResolvedValue({
+      recommendations: mockBooks,
+      mode: 'top-rated',
+      pagination: { page: 1, limit: 10, total: mockBooks.length, totalPages: 1 }
+    })
+    vi.mocked(fetchLLMRecommendations).mockResolvedValue({
+      recommendations: mockBooks,
+      mode: 'llm',
+      pagination: { page: 1, limit: 10, total: mockBooks.length, totalPages: 1 }
+    })
   })
 
   it('renders profile page with user information', async () => {
@@ -216,7 +228,11 @@ describe('ProfilePage Tab Navigation Tests', () => {
   })
 
   it('shows empty state for recommendations', async () => {
-    vi.mocked(fetchHybridRecommendations).mockResolvedValue([])
+    vi.mocked(fetchHybridRecommendations).mockResolvedValue({
+      recommendations: [],
+      mode: 'hybrid',
+      pagination: { page: 1, limit: 10, total: 0, totalPages: 0 }
+    })
     
     render(<ProfilePage />)
     

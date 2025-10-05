@@ -60,6 +60,27 @@ resource "aws_cloudfront_distribution" "frontend" {
     max_ttl     = 0
   }
 
+  ordered_cache_behavior {
+    path_pattern           = "covers/*"
+    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = "backend-api-origin"
+    viewer_protocol_policy = "redirect-to-https"
+    compress               = true
+
+    forwarded_values {
+      query_string = false
+      headers      = ["Origin"]
+      cookies {
+        forward = "none"
+      }
+    }
+
+    min_ttl     = 0
+    default_ttl = 0
+    max_ttl     = 0
+  }
+
   custom_error_response {
     error_code            = 404
     response_code         = 200

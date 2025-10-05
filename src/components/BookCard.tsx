@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toggleFavorite } from '@/services/api';
+import { invalidateBookCache } from '@/services/bookCatalog';
 
 interface BookCardProps {
   id: string;
@@ -31,6 +32,10 @@ const BookCard: React.FC<BookCardProps> = ({
   const [pending, setPending] = useState(false);
   const [imageError, setImageError] = useState(false);
 
+  useEffect(() => {
+    setFavorited(initialFavorited);
+  }, [initialFavorited]);
+
   const handleFavoriteToggle = async (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -43,6 +48,7 @@ const BookCard: React.FC<BookCardProps> = ({
     
     try {
       await toggleFavorite(Number(id));
+      invalidateBookCache();
     } catch (error) {
       setFavorited(previousState);
     } finally {
@@ -68,7 +74,7 @@ const BookCard: React.FC<BookCardProps> = ({
   };
 
   return (
-    <Link to={`/books/${id}`} className="group block">
+    <Link to={`/books/${id}`} className="group block h-full">
       <div className="card-elevated p-6 h-full hover:shadow-2xl transition-all duration-300 group-hover:scale-[1.02]">
         
         <div className="relative mb-4 overflow-hidden rounded-2xl">
@@ -96,7 +102,7 @@ const BookCard: React.FC<BookCardProps> = ({
             disabled={pending}
             className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
               favorited 
-                ? 'bg-red-500 text-white shadow-lg' 
+                ? 'bg-red-50 text-red-500 shadow-lg' 
                 : 'bg-white/80 text-gray-400 hover:bg-white hover:text-red-500'
             } ${pending ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'}`}
           >

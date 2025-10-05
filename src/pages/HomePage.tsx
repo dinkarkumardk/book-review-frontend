@@ -1,20 +1,18 @@
 import SearchBar from '../components/SearchBar';
 import getCoverFromBook from '../utils/getCoverFromBook';
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { fetchUserFavorites } from '@/services/api';
-import api from '../services/api';
-import { Link } from 'react-router-dom';
+import { fetchBooksPage } from '@/services/bookCatalog';
 import BookCard from '../components/BookCard';
 
 interface Book {
-  id: string;
+  id: string | number;
   title: string;
   author: string;
   coverImageURL?: string;
   coverImage?: string;
   avgRating?: number;
   reviewCount?: number;
+  isFavorite?: boolean;
 }
 
 const HomePage = () => {
@@ -23,42 +21,46 @@ const HomePage = () => {
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [favoriteIds, setFavoriteIds] = useState<Set<number>>(new Set());
-  const { user } = useAuth();
+  const [total, setTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+  const PAGE_SIZE = 10;
 
   useEffect(() => {
+    let active = true;
     setLoading(true);
     setError('');
-    api.get('/books', { params: { page } })
-      .then(res => {
-        const data = res.data.books || res.data.data || res.data;
-        setBooks(Array.isArray(data) ? data : []);
-        setTotalPages(res.data.totalPages || Math.ceil((res.data.total || 0) / 10));
-      })
-      .catch(() => setError('Failed to load books'))
-      .finally(() => setLoading(false));
-  }, [page]);
+    const search = searchTerm.trim();
 
-  // Load favorites once user is known
-  useEffect(() => {
-    if (!user) { setFavoriteIds(new Set()); return; }
-    fetchUserFavorites().then(favs => {
-      setFavoriteIds(new Set(favs.map(f => f.id)));
-    }).catch(() => {});
-  }, [user]);
+    fetchBooksPage({ page, limit: PAGE_SIZE, search: search || undefined, sort: 'title', order: 'asc' })
+      .then(result => {
+        if (!active) return;
+        setBooks(result.books);
+        setTotal(Math.max(result.total, result.books.length));
+        const nextTotalPages = Math.max(1, result.totalPages || 1);
+        setTotalPages(nextTotalPages);
+        setPage(prev => {
+          const next = Math.min(prev, nextTotalPages);
+          return next === prev ? prev : next;
+        });
+      })
+      .catch(() => {
+        if (!active) return;
+        setError('Failed to load books');
+      })
+      .finally(() => {
+        if (!active) return;
+        setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [page, searchTerm]);
 
   const handleSearch = (query: string) => {
-    // Perform server-side search to leverage indexed queries
-    setLoading(true);
-    api.get('/books', { params: { page: 1, search: query } })
-      .then(res => {
-        const data = res.data.data || res.data.books || res.data;
-        setPage(1);
-        setBooks(data);
-        setTotalPages(res.data.totalPages || 1);
-      })
-      .catch(() => setError('Search failed'))
-      .finally(() => setLoading(false));
+    const normalized = query.trim();
+    setPage(1);
+    setSearchTerm(normalized);
   };
 
   const handlePrev = () => {
@@ -73,7 +75,7 @@ const HomePage = () => {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold tracking-tight">Discover Books</h1>
-          <p className="text-sm text-slate-500">Browse and explore community-rated titles</p>
+          <p className="text-sm text-slate-500">Browse and explore community-rated titles ({total} books)</p>
         </div>
         <div className="text-xs text-slate-500">Page {page} of {totalPages}</div>
       </header>
@@ -88,17 +90,15 @@ const HomePage = () => {
           const cover = getCoverFromBook(book) || null;
           return (
             <li key={book.id}>
-              <Link to={`/books/${book.id}`}>
-                <BookCard
-                  id={book.id}
-                  title={book.title}
-                  author={book.author}
-                  coverImage={cover}
-                  averageRating={book.avgRating ?? 0}
-                  reviewCount={book.reviewCount ?? 0}
-                  initialFavorited={favoriteIds.has(Number(book.id))}
-                />
-              </Link>
+              <BookCard
+                id={String(book.id)}
+                title={book.title}
+                author={book.author}
+                coverImage={cover}
+                averageRating={book.avgRating ?? 0}
+                reviewCount={book.reviewCount ?? 0}
+                initialFavorited={book.isFavorite || false}
+              />
             </li>
           );
         })}

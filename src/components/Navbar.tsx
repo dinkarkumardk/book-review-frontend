@@ -1,7 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
 
 const Navbar = () => {
   const { user, logout, token } = useAuth();
@@ -17,15 +16,6 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    toast.success('Successfully logged out!', {
-      icon: '👋',
-      style: {
-        borderRadius: '24px',
-        background: '#f8fafc',
-        color: '#334155',
-        border: '1px solid #e2e8f0'
-      }
-    });
     navigate('/', { replace: true });
   };
 

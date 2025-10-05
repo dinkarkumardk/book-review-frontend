@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import api from '@/services/api';
+import React, { useEffect, useMemo, useState } from 'react';
 import BookCard from '@/components/BookCard';
+import { fetchBooksPage, type SortKey } from '@/services/bookCatalog';
 
 interface Book {
-  id: string;
+  id: number | string;
   title: string;
   author: string;
   coverUrl?: string;
@@ -13,6 +13,7 @@ interface Book {
   reviewCount?: number;
   genres?: string[];
   description?: string;
+  isFavorite?: boolean;
 }
 
 interface FetchState {
@@ -20,75 +21,92 @@ interface FetchState {
   error: string | null;
 }
 
+const SORT_OPTIONS: SortKey[] = ['title', 'author', 'rating', 'reviews'];
+const SEARCH_DEBOUNCE_MS = 600;
+
 export const BookListPage: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('title');
   const [fetchState, setFetchState] = useState<FetchState>({ loading: true, error: null });
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [availableGenres, setAvailableGenres] = useState<string[]>([]);
+  const [pageSize, setPageSize] = useState(10);
 
-  // Get unique genres from books
-  const genres = ['all', ...new Set(books.flatMap(book => book.genres || []))];
+  const PAGE_SIZE = 10;
 
-  // Load books on component mount
+  // Debounce search input to avoid flooding the API
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDebouncedSearch(searchQuery.trim());
+    }, SEARCH_DEBOUNCE_MS);
+    return () => window.clearTimeout(timer);
+  }, [searchQuery]);
+
+  const effectiveGenre = selectedGenre === 'all' ? undefined : selectedGenre;
+  const resolvedSort: SortKey = SORT_OPTIONS.includes(sortBy as SortKey) ? (sortBy as SortKey) : 'title';
+  const sortOrder = useMemo(() => (resolvedSort === 'rating' || resolvedSort === 'reviews' ? 'desc' : 'asc'), [resolvedSort]);
+
+  const genres = useMemo(() => {
+    const unique = new Set<string>(availableGenres.filter(Boolean));
+    return ['all', ...Array.from(unique).sort((a, b) => a.localeCompare(b))];
+  }, [availableGenres]);
+
+  // Reset to first page whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearch, effectiveGenre, resolvedSort]);
+
+  // Fetch paginated books from API with caching
   useEffect(() => {
     let active = true;
     setFetchState({ loading: true, error: null });
-    
-    api.get('/books?limit=50')
-      .then(res => {
+
+    fetchBooksPage({
+      page: currentPage,
+      limit: PAGE_SIZE,
+      search: debouncedSearch || undefined,
+      genre: effectiveGenre,
+      sort: resolvedSort,
+      order: sortOrder,
+    })
+      .then(result => {
         if (!active) return;
-        const booksData = res.data.books || res.data || [];
-        setBooks(Array.isArray(booksData) ? booksData : []);
+        setBooks(result.books);
+        setTotal(Math.max(result.total, result.books.length));
+        const nextTotalPages = Math.max(1, result.totalPages || 1);
+        setTotalPages(nextTotalPages);
+        setCurrentPage(prev => {
+          const next = Math.min(prev, nextTotalPages);
+          return next === prev ? prev : next;
+        });
+        setPageSize(result.pageSize);
+        if (!debouncedSearch && result.availableGenres.length) {
+          setAvailableGenres(result.availableGenres);
+        }
         setFetchState({ loading: false, error: null });
       })
-      .catch(err => {
+      .catch((err: unknown) => {
         if (!active) return;
-        setFetchState({ loading: false, error: err?.response?.data?.message || 'Failed to load books' });
+        const message =
+          (err as any)?.response?.data?.error ||
+          (err as Error)?.message ||
+          'Failed to load books';
+        setFetchState({ loading: false, error: message });
       });
-    
-    return () => { active = false; };
-  }, []);
 
-  // Filter and sort books based on search and filters
-  useEffect(() => {
-    let filtered = [...books];
+    return () => {
+      active = false;
+    };
+  }, [currentPage, debouncedSearch, effectiveGenre, resolvedSort, sortOrder]);
 
-    // Apply search filter
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(book => 
-        book.title.toLowerCase().includes(query) ||
-        book.author.toLowerCase().includes(query) ||
-        (book.genres || []).some(genre => genre.toLowerCase().includes(query))
-      );
-    }
-
-    // Apply genre filter
-    if (selectedGenre !== 'all') {
-      filtered = filtered.filter(book => 
-        (book.genres || []).includes(selectedGenre)
-      );
-    }
-
-    // Apply sorting
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'rating':
-          return (b.averageRating || 0) - (a.averageRating || 0);
-        case 'reviews':
-          return (b.reviewCount || 0) - (a.reviewCount || 0);
-        case 'author':
-          return a.author.localeCompare(b.author);
-        case 'title':
-        default:
-          return a.title.localeCompare(b.title);
-      }
-    });
-
-    setFilteredBooks(filtered);
-  }, [books, searchQuery, selectedGenre, sortBy]);
+  const startIndex = total === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+  const endIndex = total === 0 ? 0 : Math.min(currentPage * pageSize, total);
+  const noResults = !fetchState.loading && !fetchState.error && books.length === 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 p-4 md:p-6 lg:p-8">
@@ -101,7 +119,7 @@ export const BookListPage: React.FC = () => {
                 Discover Books
               </h1>
               <p className="text-on-surface-variant text-lg">
-                Explore our collection of {books.length} amazing books
+                Explore our collection of {total} amazing books
               </p>
             </div>
             
@@ -157,7 +175,9 @@ export const BookListPage: React.FC = () => {
 
             {/* Results Count */}
             <div className="text-on-surface-variant ml-auto">
-              {filteredBooks.length} of {books.length} books
+              {total === 0
+                ? '0 books'
+                : `Showing ${startIndex}-${endIndex} of ${total} books`}
             </div>
           </div>
         </div>
@@ -175,7 +195,7 @@ export const BookListPage: React.FC = () => {
               </div>
             ))}
           </div>
-        ) : fetchState.error ? (
+  ) : fetchState.error ? (
           <div className="glass-card p-8 text-center">
             <div className="text-6xl mb-4">⚠️</div>
             <h3 className="text-xl font-semibold text-error mb-2">Oops! Something went wrong</h3>
@@ -187,7 +207,7 @@ export const BookListPage: React.FC = () => {
               Try Again
             </button>
           </div>
-        ) : filteredBooks.length === 0 ? (
+        ) : noResults ? (
           <div className="glass-card p-12 text-center">
             <div className="text-8xl mb-6">📚</div>
             <h3 className="text-2xl font-semibold text-on-surface mb-2">No books found</h3>
@@ -211,10 +231,10 @@ export const BookListPage: React.FC = () => {
           </div>
         ) : (
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {filteredBooks.map(book => (
+            {books.map(book => (
               <BookCard 
                 key={book.id} 
-                id={book.id}
+                id={String(book.id)}
                 title={book.title}
                 author={book.author}
                 coverUrl={book.coverUrl || book.coverImageURL}
@@ -222,10 +242,33 @@ export const BookListPage: React.FC = () => {
                 reviewCount={book.reviewCount || 0}
                 genres={book.genres}
                 description={book.description}
+                initialFavorited={book.isFavorite ?? false}
               />
             ))}
           </div>
         )}
+
+    {!fetchState.loading && !fetchState.error && books.length > 0 && (
+          <div className="glass-card p-4 flex items-center justify-between">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className={`btn-outlined px-4 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              Previous
+            </button>
+            <div className="text-on-surface-variant font-medium">
+              Page {currentPage} of {totalPages}
+            </div>
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className={`btn-filled px-4 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              Next
+            </button>
+          </div>
+  )}
       </div>
     </div>
   );

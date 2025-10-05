@@ -66,6 +66,8 @@ export interface Book {
   genres?: string[];
   avgRating?: number;
   reviewCount?: number;
+  isFavorite?: boolean;
+  relevanceScore?: number; // For recommendation scoring
 }
 
 export interface Review {
@@ -75,6 +77,17 @@ export interface Review {
   createdAt: string;
   updatedAt: string;
   book: { id: number; title: string; author?: string };
+}
+
+export interface RecommendationResponse {
+  recommendations: Book[];
+  mode: 'hybrid' | 'top-rated' | 'llm';
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
 }
 
 export async function fetchUserFavorites(): Promise<Book[]> {
@@ -92,17 +105,17 @@ export async function toggleFavorite(bookId: number): Promise<{ message: string 
   return data;
 }
 
-export async function fetchHybridRecommendations(): Promise<Book[]> {
-  const { data } = await api.get<{ recommendations: Book[] }>('/recommendations');
-  return data.recommendations || [];
+export async function fetchHybridRecommendations(page = 1, limit = 10): Promise<RecommendationResponse> {
+  const { data } = await api.get<RecommendationResponse>(`/recommendations?page=${page}&limit=${limit}`);
+  return data;
 }
 
-export async function fetchTopRatedRecommendations(): Promise<Book[]> {
-  const { data } = await api.get<{ recommendations: Book[] }>('/recommendations/top-rated');
-  return data.recommendations || [];
+export async function fetchTopRatedRecommendations(page = 1, limit = 10): Promise<RecommendationResponse> {
+  const { data } = await api.get<RecommendationResponse>(`/recommendations/top-rated?page=${page}&limit=${limit}`);
+  return data;
 }
 
-export async function fetchLLMRecommendations(): Promise<Book[]> {
-  const { data } = await api.get<{ recommendations: Book[] }>('/recommendations/llm');
-  return data.recommendations || [];
+export async function fetchLLMRecommendations(page = 1, limit = 10): Promise<RecommendationResponse> {
+  const { data } = await api.get<RecommendationResponse>(`/recommendations/llm?page=${page}&limit=${limit}`);
+  return data;
 }
